@@ -215,7 +215,7 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 .cover.open .envelope .letter{transform:translateY(-72%)}
 .envelope .seal{left:50%;top:54%;width:46%;z-index:4;transform:translate(-50%,-50%);transition:transform .45s cubic-bezier(.5,0,.75,0),opacity .45s;overflow:visible}
 .cover.open .envelope .seal{transform:translate(-50%,-50%) scale(1.25);opacity:0}
-.cover{transition:opacity .9s ease 1.25s,visibility .9s ease 1.25s;gap:18px}
+.cover{transition:opacity .9s ease 4.6s,visibility .9s ease 4.6s;gap:18px}
 .cover .c-sub{margin:10px 0 -6px;color:#cdbf9c;font-family:var(--display);font-style:italic;font-size:1.15rem}
 .cover .c-fam{margin:0;font-family:"Great Vibes",var(--display);font-style:normal;font-size:clamp(1.65rem,8.4vw,2.35rem);line-height:1.25;padding:.08em .2em;color:#f3e3bd;text-shadow:0 2px 12px rgba(0,0,0,.35)}
 .cover .open-btn{animation:pulse 2.4s ease-in-out infinite;margin-top:4px}
@@ -320,6 +320,7 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 
 @media (prefers-reduced-motion:reduce){
   .envelope,.cover .open-btn,.tinsel .lt,.countdown .orn .ball,.note .flake{animation:none!important}
+  .cover{transition:none}
   .go *{animation:none!important}
 }
 </style>
@@ -777,8 +778,10 @@ document.getElementById("abrir").addEventListener("click", () => {
   snowBurst(document.getElementById("envelope"));
   cover.classList.add("open");
   if (Music.wanted) Music.start();
-  setTimeout(() => { document.documentElement.classList.remove("await"); document.documentElement.classList.add("go"); }, 1500);
-  setTimeout(() => cover.remove(), 2300);
+  /* La carta queda abierta el tiempo suficiente para leerla antes de pasar a la invitación. */
+  const readPause = reduceMotion ? 400 : 4600;
+  setTimeout(() => { document.documentElement.classList.remove("await"); document.documentElement.classList.add("go"); }, readPause);
+  setTimeout(() => cover.remove(), readPause + 1000);
 });
 musicBtn.addEventListener("click", e => {
   e.stopPropagation();
