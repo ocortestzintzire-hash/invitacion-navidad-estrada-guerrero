@@ -3,7 +3,9 @@
 Invitación web interactiva para el 24 y 25 de diciembre en Club Campestre Kercus.
 
 ## Contenido
-- `index.html` — todo en un solo archivo (fuentes incrustadas, música sintetizada, sin dependencias).
+- `index.html` — la invitación (música sintetizada, sin dependencias externas).
+- `fonts/` — fuentes locales (Cormorant Garamond y Jost).
+- `og-image.jpg` — imagen de vista previa al compartir el enlace.
 
 ## Configuración
 En `index.html`, al inicio del `<script>`, coloca el WhatsApp que recibe las confirmaciones (lada de país + número, sin espacios):
