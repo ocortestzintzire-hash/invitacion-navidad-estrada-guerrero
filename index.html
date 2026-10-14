@@ -186,13 +186,122 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 .music[aria-pressed="false"] .on{display:none}
 .music[aria-pressed="false"] .off{display:block}
 @media (prefers-reduced-motion:reduce){ .cover,.flap{transition:none} }
+
+/* ===== Portada: la carta sale del sobre ===== */
+#snow{z-index:11}
+.envelope{overflow:visible;background:#e9dfc6}
+.envelope::before{display:none}
+.envelope .letter{position:absolute;left:7%;right:7%;top:8%;height:86%;z-index:1;background:var(--paper);display:grid;place-items:center;
+  font-family:var(--display);font-style:italic;font-size:1.7rem;color:var(--berry);box-shadow:0 4px 14px rgba(0,0,0,.15);transition:transform .9s cubic-bezier(.2,.8,.2,1) .35s}
+.envelope .pocket{position:absolute;inset:0;z-index:2;background:#efe6cf;clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%);border-radius:4px}
+.flap{z-index:3;background:#e3d7b8;transition:transform .7s ease,z-index 0s linear .3s}
+.cover.open .flap{z-index:0}
+.cover.open .envelope .letter{transform:translateY(-64%)}
+.seal{z-index:4;transition:opacity .3s}
+.cover.open .seal{opacity:0}
+.cover{transition:opacity .8s ease 1s,visibility .8s ease 1s}
+.envelope{animation:float 3.6s ease-in-out infinite}
+.cover.open .envelope{animation:none}
+@keyframes float{50%{transform:translateY(-8px) rotate(-1deg)}}
+.cover .open-btn{animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(180,137,59,.18)}}
+
+/* ===== Guirnalda de foquitos ===== */
+.lights{position:relative;height:46px;margin:-24px -8px 4px;z-index:2}
+.lights svg{width:100%;height:46px;overflow:visible}
+.lights .bulb{transform-box:fill-box;transform-origin:50% 0;animation:twinkle var(--t,1.8s) ease-in-out var(--d,0s) infinite}
+@keyframes twinkle{0%,100%{opacity:1;filter:drop-shadow(0 0 6px currentColor)}50%{opacity:.35;filter:none}}
+
+/* ===== Secuencia al abrir ===== */
+.await .card.hero .seq{opacity:0}
+.go .sprig path{stroke-dasharray:80;stroke-dashoffset:80;animation:draw 1.4s ease .1s forwards}
+.go .sprig ellipse{transform-box:fill-box;transform-origin:center;animation:grow .6s cubic-bezier(.3,1.5,.5,1) both;animation-delay:calc(.6s + var(--i) * .12s)}
+.go .sprig circle{transform-box:fill-box;transform-origin:center;animation:grow .6s cubic-bezier(.3,1.8,.5,1) both;animation-delay:calc(1.1s + var(--i) * .12s)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes grow{from{transform:scale(0)}}
+.go .blessing{animation:up 1.1s ease 1.3s both}
+.go .family span{animation:up 1s ease 1.9s both}
+.go .family .fam{display:inline-block;animation:namein 1.5s cubic-bezier(.2,.7,.2,1) 2.1s both}
+@keyframes namein{from{opacity:0;letter-spacing:.3em;filter:blur(6px)}}
+.go .invite{animation:up 1s ease 2.8s both}
+.go .rule{animation:up 1s ease 3s both}
+.go .rule .star{display:inline-block;animation:spin 1.6s cubic-bezier(.3,1.4,.5,1) 3s both}
+@keyframes spin{from{transform:rotate(-180deg) scale(0)}}
+.go .details > div{animation:up .9s ease both;animation-delay:calc(3.2s + var(--i) * .15s)}
+.go .countdown .orn{animation:drop 1s cubic-bezier(.3,1.5,.5,1) both;animation-delay:calc(3.6s + var(--i) * .15s)}
+@keyframes drop{from{transform:translateY(-40px);opacity:0}}
+.go .note,.go .card.hero .actions{animation:up 1s ease 4.2s both}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}
+
+/* ===== Cuenta regresiva en esferas ===== */
+.countdown{gap:12px;margin-top:30px;align-items:flex-start}
+.countdown .orn{display:flex;flex-direction:column;align-items:center;min-width:0;transform-origin:50% -24px}
+.countdown .orn::before{content:"";width:1px;height:16px;background:var(--gold)}
+.countdown .orn i{width:12px;height:7px;border-radius:2px 2px 0 0;background:linear-gradient(90deg,#9a7330,#e9d9b4,#9a7330)}
+.countdown .orn .ball{width:66px;height:66px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.55) 0 8%,transparent 22%),radial-gradient(circle at 50% 50%,var(--c1),var(--c2));
+  box-shadow:inset -6px -8px 14px rgba(0,0,0,.25),0 8px 16px rgba(0,0,0,.18)}
+.countdown .orn b{color:#fff;font-size:1.65rem;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.countdown .orn span{color:rgba(255,255,255,.85);font-size:.6rem;margin-top:2px}
+.countdown .orn:nth-child(1){--c1:#c23b3b;--c2:#7e1d1d}
+.countdown .orn:nth-child(2){--c1:#2f6b52;--c2:#173b2d}
+.countdown .orn:nth-child(3){--c1:#d4a94f;--c2:#8a6524}
+.countdown .orn:nth-child(4){--c1:#c23b3b;--c2:#7e1d1d}
+.countdown .orn .ball{animation:sway 4s ease-in-out infinite;transform-origin:50% -24px}
+.countdown .orn:nth-child(2) .ball{animation-delay:-1s}.countdown .orn:nth-child(3) .ball{animation-delay:-2s}.countdown .orn:nth-child(4) .ball{animation-delay:-3s}
+@keyframes sway{50%{transform:rotate(4deg)}}
+.countdown b.tick{animation:tick .55s cubic-bezier(.2,.7,.2,1)}
+@keyframes tick{from{transform:translateY(-40%);opacity:0}}
+
+/* ===== Recomendación ===== */
+.note{align-items:center;border:1px dashed var(--gold-soft)}
+.note .flake{animation:rot 8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.note .kit{display:flex;gap:6px;margin-top:8px}
+.note .kit span{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;background:#fff;font-size:.8rem;color:var(--muted)}
+
+/* ===== Botones ===== */
+.btn{transition:background .2s,transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.submit{transition:transform .2s,box-shadow .2s}
+.submit:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(158,43,43,.35)}
+
+/* ===== Menú de calendario ===== */
+.calwrap{position:relative;display:inline-block}
+.calmenu{position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);z-index:20;min-width:220px;display:flex;flex-direction:column;padding:6px;
+  background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 40px rgba(0,0,0,.2);animation:menu .2s ease}
+.calmenu a{padding:10px 14px;border-radius:8px;text-decoration:none;color:var(--ink);font:500 .95rem var(--body);text-align:left}
+.calmenu a:hover,.calmenu a:focus-visible{background:#f2ecdc}
+@keyframes menu{from{opacity:0;transform:translate(-50%,6px)}}
+
+/* ===== Aparición al bajar ===== */
+.js-anim [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+.js-anim [data-reveal].in{opacity:1;transform:none}
+
+/* ===== Árbol final ===== */
+.tree{display:block;width:120px;height:150px;margin:6px auto 0}
+.tree .draw{stroke-dasharray:420;stroke-dashoffset:420;transition:stroke-dashoffset 2.6s ease}
+.tree .dot{opacity:0;transition:opacity .5s}
+.tree .star{transform-box:fill-box;transform-origin:center;opacity:0;transition:opacity .6s 2s,transform .8s cubic-bezier(.3,1.6,.5,1) 2s;transform:scale(0) rotate(-90deg)}
+.in .tree .draw,.no-anim .tree .draw{stroke-dashoffset:0}
+.in .tree .dot,.no-anim .tree .dot{opacity:1;transition-delay:calc(1.4s + var(--i) * .12s)}
+.in .tree .star,.no-anim .tree .star{opacity:1;transform:none}
+.in .tree .dot{animation:twinkle 2.2s ease-in-out infinite;animation-delay:calc(3s + var(--i) * .3s)}
+.in .tree .star{animation:shine 2.4s ease-in-out 3s infinite}
+@keyframes shine{50%{filter:drop-shadow(0 0 8px #ffd77a)}}
+.foot{font-size:1.6rem;color:#f3e3bd;margin-top:0}
+
+@media (prefers-reduced-motion:reduce){
+  .envelope,.cover .open-btn,.lights .bulb,.countdown .orn .ball,.note .flake{animation:none!important}
+  .go *{animation:none!important}
+}
 </style>
 </head>
 <body>
 
 
 <div class="cover" id="cover">
-  <div class="envelope" aria-hidden="true"><div class="flap"></div><div class="seal">EG</div></div>
+  <div class="envelope" aria-hidden="true"><div class="letter">Feliz Navidad</div><div class="pocket"></div><div class="flap"></div><div class="seal">EG</div></div>
   <p>Tienes una invitación de la Familia Estrada Guerrero</p>
   <button class="open-btn" id="abrir" type="button">Abrir invitación</button>
 </div>
@@ -203,62 +312,65 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 <canvas id="snow" aria-hidden="true"></canvas>
 
 <main class="wrap">
-  <article class="card">
-    <svg class="sprig" viewBox="0 0 120 60" aria-hidden="true">
+  <article class="card hero">
+    <div class="lights" aria-hidden="true">
+      <svg viewBox="0 0 400 46" preserveAspectRatio="none">
+        <path d="M0 6 Q50 30 100 10 T200 10 T300 10 T400 6" fill="none" stroke="#2b3d33" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <svg class="sprig seq" viewBox="0 0 120 60" aria-hidden="true">
       <g fill="none" stroke="#2f5a46" stroke-width="2" stroke-linecap="round">
         <path d="M60 46 C46 30 28 22 8 22"/>
         <path d="M60 46 C74 30 92 22 112 22"/>
       </g>
       <g fill="#2f5a46">
-        <ellipse cx="22" cy="20" rx="9" ry="4" transform="rotate(-18 22 20)"/>
-        <ellipse cx="38" cy="30" rx="9" ry="4" transform="rotate(28 38 30)"/>
-        <ellipse cx="98" cy="20" rx="9" ry="4" transform="rotate(18 98 20)"/>
-        <ellipse cx="82" cy="30" rx="9" ry="4" transform="rotate(-28 82 30)"/>
+        <g transform="rotate(-18 22 20)"><ellipse style="--i:0" cx="22" cy="20" rx="9" ry="4"/></g>
+        <g transform="rotate(28 38 30)"><ellipse style="--i:1" cx="38" cy="30" rx="9" ry="4"/></g>
+        <g transform="rotate(18 98 20)"><ellipse style="--i:2" cx="98" cy="20" rx="9" ry="4"/></g>
+        <g transform="rotate(-28 82 30)"><ellipse style="--i:3" cx="82" cy="30" rx="9" ry="4"/></g>
       </g>
       <g fill="#9e2b2b">
-        <circle cx="56" cy="48" r="5"/><circle cx="65" cy="47" r="5"/><circle cx="60" cy="40" r="5"/>
+        <circle style="--i:0" cx="56" cy="48" r="5"/><circle style="--i:1" cx="65" cy="47" r="5"/><circle style="--i:2" cx="60" cy="40" r="5"/>
       </g>
     </svg>
 
-    <p class="blessing">“Que la paz, el amor y la alegría de estas fechas inunden sus hogares. Deseamos que esta Navidad esté llena de momentos inolvidables en familia.”</p>
+    <p class="blessing seq">“Que la paz, el amor y la alegría de estas fechas inunden sus hogares. Deseamos que esta Navidad esté llena de momentos inolvidables en familia.”</p>
 
-    <h1 class="family"><span>La Familia</span>Estrada Guerrero</h1>
-    <p class="invite">Te invita cordialmente a pasar la Navidad</p>
+    <h1 class="family"><span class="seq">La Familia</span><span class="fam seq" style="display:inline-block;font-size:1em;font-style:normal;font-weight:600;color:var(--ink);margin:0">Estrada Guerrero</span></h1>
+    <p class="invite seq">Te invita cordialmente a pasar la Navidad</p>
 
-    <div class="rule" aria-hidden="true">✦</div>
+    <div class="rule seq" aria-hidden="true"><span class="star">✦</span></div>
 
     <dl class="details">
-      <div><dt>Días</dt><dd>24 y 25<small>de diciembre</small></dd></div>
-      <div><dt>Hora</dt><dd>10:00 AM<small>desde el 24 de diciembre</small></dd></div>
-      <div><dt>Lugar</dt><dd>Club Campestre Kercus<small>Michoacán</small></dd></div>
+      <div class="seq" style="--i:0"><dt>Días</dt><dd>24 y 25<small>de diciembre</small></dd></div>
+      <div class="seq" style="--i:1"><dt>Hora</dt><dd>10:00 AM<small>desde el 24 de diciembre</small></dd></div>
+      <div class="seq" style="--i:2"><dt>Lugar</dt><dd>Club Campestre Kercus<small>Michoacán</small></dd></div>
     </dl>
 
     <div class="countdown" id="countdown" aria-label="Tiempo para el evento">
-      <div><b id="cd-d">--</b><span>días</span></div>
-      <div><b id="cd-h">--</b><span>horas</span></div>
-      <div><b id="cd-m">--</b><span>min</span></div>
+      <div class="orn seq" style="--i:0"><i></i><div class="ball"><b id="cd-d">--</b><span>días</span></div></div>
+      <div class="orn seq" style="--i:1"><i></i><div class="ball"><b id="cd-h">--</b><span>horas</span></div></div>
+      <div class="orn seq" style="--i:2"><i></i><div class="ball"><b id="cd-m">--</b><span>min</span></div></div>
+      <div class="orn seq" style="--i:3"><i></i><div class="ball"><b id="cd-s">--</b><span>seg</span></div></div>
     </div>
 
-    <div class="note">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f5a46" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+    <div class="note seq">
+      <svg class="flake" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#2f5a46" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" style="flex:none">
         <path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19M9 3l3 3 3-3M9 21l3-3 3 3M3 9l3 3-3 3M21 9l-3 3 3 3"/>
       </svg>
-      <p style="margin:0"><strong>Recomendación:</strong> el clima campestre es fresco. Favor de traer sus chamarras y cobijas para disfrutar cómodamente de la convivencia.</p>
+      <div><p style="margin:0"><strong>Recomendación:</strong> el clima campestre es fresco. Favor de traer sus chamarras y cobijas para disfrutar cómodamente de la convivencia.</p><div class="kit" aria-hidden="true"><span>🧥 Chamarra</span><span>🧣 Cobija</span></div></div>
     </div>
 
-    <div class="actions">
+    <div class="actions seq">
       <a class="btn" href="https://maps.google.com/?q=19.520832,-101.504646" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
         Ver ubicación
       </a>
-      <a class="btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Navidad%20con%20la%20Familia%20Estrada%20Guerrero&dates=20261224T100000/20261225T235900&ctz=America/Mexico_City&location=Club%20Campestre%20Kercus&details=Traer%20chamarra%20y%20cobijas.%20Ubicaci%C3%B3n%3A%20https%3A%2F%2Fmaps.google.com%2F%3Fq%3D19.520832%2C-101.504646" target="_blank" rel="noopener">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-        Agregar al calendario
-      </a>
+      <div data-cal></div>
     </div>
   </article>
 
-  <section class="card rsvp" id="rsvp">
+  <section class="card rsvp" id="rsvp" data-reveal>
     <h2>Confirma tu asistencia</h2>
     <p class="lead">Nos ayuda mucho saber cuántos seremos.</p>
 
@@ -321,7 +433,19 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
     </div>
   </section>
 
-  <p class="foot">¡Feliz Navidad!</p>
+  <div class="end" data-reveal>
+    <svg class="tree" viewBox="0 0 120 150" aria-hidden="true">
+      <path class="draw" d="M60 18 L28 70 H44 L18 112 H48 L40 132 H80 L72 112 H102 L76 70 H92 Z" fill="none" stroke="#e9d9b4" stroke-width="1.6" stroke-linejoin="round"/>
+      <circle class="dot" style="--i:0;color:#ff6b6b" cx="54" cy="58" r="3" fill="#ff6b6b"/>
+      <circle class="dot" style="--i:1;color:#ffd77a" cx="70" cy="76" r="3" fill="#ffd77a"/>
+      <circle class="dot" style="--i:2;color:#9be7c4" cx="46" cy="92" r="3" fill="#9be7c4"/>
+      <circle class="dot" style="--i:3;color:#ff6b6b" cx="76" cy="100" r="3" fill="#ff6b6b"/>
+      <circle class="dot" style="--i:4;color:#ffd77a" cx="58" cy="118" r="3" fill="#ffd77a"/>
+      <circle class="dot" style="--i:5;color:#9be7c4" cx="86" cy="116" r="3" fill="#9be7c4"/>
+      <path class="star" d="M60 2l4 9 10 1-7.5 6.5L69 28l-9-5-9 5 2.5-9.5L46 12l10-1z" fill="#ffd77a"/>
+    </svg>
+    <p class="foot">¡Feliz Navidad!</p>
+  </div>
 </main>
 
 <script>
@@ -334,12 +458,14 @@ function tick(){
   let diff = Math.max(0, target - Date.now());
   const d = Math.floor(diff/864e5); diff -= d*864e5;
   const h = Math.floor(diff/36e5); diff -= h*36e5;
-  const m = Math.floor(diff/6e4);
-  document.getElementById("cd-d").textContent = d;
-  document.getElementById("cd-h").textContent = String(h).padStart(2,"0");
-  document.getElementById("cd-m").textContent = String(m).padStart(2,"0");
+  const m = Math.floor(diff/6e4); diff -= m*6e4;
+  const sec = Math.floor(diff/1e3);
+  [["cd-d", String(d)], ["cd-h", String(h).padStart(2,"0")], ["cd-m", String(m).padStart(2,"0")], ["cd-s", String(sec).padStart(2,"0")]].forEach(([id, v]) => {
+    const el = document.getElementById(id);
+    if (el.textContent !== v){ el.textContent = v; if (el.dataset.ready){ el.classList.remove("tick"); void el.offsetWidth; el.classList.add("tick"); } el.dataset.ready = "1"; }
+  });
 }
-tick(); setInterval(tick, 30000);
+tick(); setInterval(tick, 1000);
 
 /* Formulario */
 const form = document.getElementById("form");
@@ -388,6 +514,7 @@ form.addEventListener("submit", e => {
   document.getElementById("done-title").textContent = asiste ? "¡Gracias, " + nombre + "!" : "Gracias por avisarnos";
   form.hidden = true;
   document.getElementById("done").hidden = false;
+  celebrate();
   const a = document.createElement("a");
   a.href = link; a.target = "_blank"; a.rel = "noopener";
   document.body.appendChild(a); a.click(); a.remove();
@@ -478,11 +605,14 @@ const Music = (() => {
 })();
 
 const musicBtn = document.getElementById("music");
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+document.documentElement.classList.add("await");
 document.getElementById("abrir").addEventListener("click", () => {
   document.getElementById("cover").classList.add("open");
   musicBtn.hidden = false;
   musicBtn.setAttribute("aria-pressed", String(Music.start()));
-  setTimeout(() => document.getElementById("cover").remove(), 1000);
+  setTimeout(() => { document.documentElement.classList.remove("await"); document.documentElement.classList.add("go"); }, 1100);
+  setTimeout(() => document.getElementById("cover").remove(), 1900);
 });
 musicBtn.addEventListener("click", () => {
   if (Music.playing){ Music.stop(); musicBtn.setAttribute("aria-pressed","false"); }
@@ -491,6 +621,66 @@ musicBtn.addEventListener("click", () => {
 document.addEventListener("visibilitychange", () => {
   if (document.hidden && Music.playing){ Music.stop(); musicBtn.setAttribute("aria-pressed","false"); }
 });
+
+/* Guirnalda: foquitos a lo largo del cable */
+(() => {
+  const svg = document.querySelector(".lights svg"), path = svg.querySelector("path"), NS = "http://www.w3.org/2000/svg";
+  const colors = ["#e04848", "#f2c14e", "#3fbf7f", "#5aa7ff", "#f08ad0"], L = path.getTotalLength(), n = 14;
+  for (let i = 0; i < n; i++){
+    const p = path.getPointAtLength((i + .5) / n * L), c = colors[i % colors.length];
+    const g = document.createElementNS(NS, "g"); g.setAttribute("class", "bulb"); g.style.color = c;
+    g.style.setProperty("--t", (1.4 + (i % 3) * .5) + "s"); g.style.setProperty("--d", (-(i * .37)) + "s");
+    g.innerHTML = '<rect x="' + (p.x - 2.5) + '" y="' + (p.y - 1) + '" width="5" height="5" rx="1" fill="#3c4a40"/><ellipse cx="' + p.x + '" cy="' + (p.y + 11) + '" rx="5" ry="8" fill="' + c + '"/><ellipse cx="' + (p.x - 1.6) + '" cy="' + (p.y + 8) + '" rx="1.4" ry="2.6" fill="#fff" opacity=".6"/>';
+    svg.appendChild(g);
+  }
+})();
+
+/* Aparición al bajar */
+(() => {
+  if (!("IntersectionObserver" in window) || reduceMotion){ document.documentElement.classList.add("no-anim"); document.querySelectorAll("[data-reveal]").forEach(e => e.classList.add("in")); return; }
+  document.documentElement.classList.add("js-anim");
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .15 });
+  document.querySelectorAll("[data-reveal]").forEach(e => io.observe(e));
+})();
+
+/* Menú para agregar al calendario */
+(() => {
+  const w = document.querySelector("[data-cal]"), enc = encodeURIComponent;
+  const title = "Navidad con la Familia Estrada Guerrero", start = "20261224T100000", end = "20261225T235900",
+        loc = "Club Campestre Kercus", det = "Traer chamarra y cobijas. Ubicación: https://maps.google.com/?q=19.520832,-101.504646";
+  const google = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + enc(title) + "&dates=" + start + "/" + end + "&ctz=America/Mexico_City&location=" + enc(loc) + "&details=" + enc(det);
+  const outlook = "https://outlook.live.com/calendar/0/deeplink/compose?subject=" + enc(title) + "&startdt=2026-12-24T10:00:00&enddt=2026-12-25T23:59:00&location=" + enc(loc) + "&body=" + enc(det);
+  const yahoo = "https://calendar.yahoo.com/?v=60&title=" + enc(title) + "&st=" + start + "&et=" + end + "&in_loc=" + enc(loc) + "&desc=" + enc(det);
+  const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Familia Estrada Guerrero//Navidad//ES","BEGIN:VEVENT","UID:navidad-2026-estrada-guerrero","DTSTAMP:20261201T000000Z",
+    "DTSTART;TZID=America/Mexico_City:" + start,"DTEND;TZID=America/Mexico_City:" + end,"SUMMARY:" + title,"LOCATION:" + loc,"DESCRIPTION:" + det,"END:VEVENT","END:VCALENDAR"].join("\r\n");
+  const icsUrl = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+  w.className = "calwrap";
+  w.innerHTML = '<button class="btn" type="button" aria-expanded="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Agregar al calendario</button>' +
+    '<div class="calmenu" hidden><a href="' + google + '" target="_blank" rel="noopener">Google Calendar</a><a href="' + icsUrl + '" download="navidad-estrada-guerrero.ics">Apple Calendar (iPhone)</a><a href="' + outlook + '" target="_blank" rel="noopener">Outlook</a><a href="' + yahoo + '" target="_blank" rel="noopener">Yahoo</a></div>';
+  const b = w.querySelector("button"), m = w.querySelector(".calmenu");
+  b.addEventListener("click", () => { m.hidden = !m.hidden; b.setAttribute("aria-expanded", String(!m.hidden)); });
+  document.addEventListener("click", e => { if (!w.contains(e.target)){ m.hidden = true; b.setAttribute("aria-expanded", "false"); } });
+})();
+
+/* Confeti de nieve y oro al confirmar */
+function celebrate(){
+  if (reduceMotion) return;
+  const c = document.createElement("canvas"); c.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20";
+  document.body.appendChild(c); const ctx = c.getContext("2d"), dpr = Math.min(2, devicePixelRatio || 1);
+  c.width = innerWidth * dpr; c.height = innerHeight * dpr; ctx.scale(dpr, dpr);
+  const cols = ["#ffffff", "#e9d9b4", "#b4893b", "#9e2b2b", "#2f6b52"];
+  const ps = Array.from({ length: 130 }, (_, i) => { const a = Math.random() * Math.PI * 2, s = 3 + Math.random() * 8;
+    return { x: innerWidth / 2, y: innerHeight * .45, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 5, r: Math.random() * 6, w: 4 + Math.random() * 6, c: cols[i % cols.length], round: i % 3 === 0 }; });
+  const t0 = performance.now();
+  (function f(t){
+    ctx.clearRect(0, 0, innerWidth, innerHeight); let alive = false;
+    ps.forEach(p => { p.vy += .2; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += .1; if (p.y < innerHeight + 20) alive = true;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c;
+      if (p.round){ ctx.beginPath(); ctx.arc(0, 0, p.w / 2, 0, 7); ctx.fill(); } else ctx.fillRect(-p.w / 2, -p.w / 4, p.w, p.w / 2);
+      ctx.restore(); });
+    if (alive && t - t0 < 5000) requestAnimationFrame(f); else c.remove();
+  })(t0);
+}
 
 /* Nieve */
 (() => {
