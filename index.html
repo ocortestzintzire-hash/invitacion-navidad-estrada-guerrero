@@ -22,6 +22,8 @@
 @font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/cormorant-garamond-500-normal.woff2) format("woff2")}
 @font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/cormorant-garamond-600-normal.woff2) format("woff2")}
 @font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:500;font-display:swap;src:url(fonts/cormorant-garamond-500-italic.woff2) format("woff2")}
+@font-face{font-family:"Great Vibes";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/great-vibes-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Pinyon Script";font-style:normal;font-weight:400;font-display:block;src:url(fonts/pinyon-script-latin-400-normal.woff2) format("woff2")}
 @font-face{font-family:"Jost";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/jost-400-normal.woff2) format("woff2")}
 @font-face{font-family:"Jost";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/jost-500-normal.woff2) format("woff2")}
 @font-face{font-family:"Jost";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/jost-600-normal.woff2) format("woff2")}
@@ -168,12 +170,6 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
   text-align:center;transition:opacity .9s ease, visibility .9s;
 }
 .cover.open{opacity:0;visibility:hidden}
-.envelope{position:relative;width:min(300px,78vw);aspect-ratio:3/2;max-width:100%;background:var(--paper);border-radius:4px;box-shadow:0 24px 60px rgba(0,0,0,.4);overflow:hidden}
-.envelope::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom right, transparent 49.5%, var(--line) 50%, transparent 50.5%),linear-gradient(to bottom left, transparent 49.5%, var(--line) 50%, transparent 50.5%);background-size:50% 100%;background-position:left,right;background-repeat:no-repeat}
-.flap{position:absolute;left:0;right:0;top:0;height:58%;background:#f3ead4;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .8s ease}
-.cover.open .flap{transform:rotateX(180deg)}
-.seal{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:var(--berry);color:var(--gold-soft);display:grid;place-items:center;font-family:var(--display);font-size:1.5rem;font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.3)}
-.cover p{margin:0;color:var(--gold-soft);font-family:var(--display);font-style:italic;font-size:1.25rem}
 .cover .open-btn{padding:14px 26px;border-radius:999px;border:1px solid var(--gold);background:var(--gold);color:var(--night);font:600 1rem var(--body);cursor:pointer;letter-spacing:.02em}
 .cover .open-btn:focus-visible{outline:2px solid var(--paper);outline-offset:3px}
 .music{
@@ -187,25 +183,43 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 .music[aria-pressed="false"] .off{display:block}
 @media (prefers-reduced-motion:reduce){ .cover,.flap{transition:none} }
 
-/* ===== Portada: la carta sale del sobre ===== */
+/* ===== Portada: sobre de papel con sello de lacre ===== */
 #snow{z-index:11}
-.envelope{overflow:visible;background:#e9dfc6}
-.envelope::before{display:none}
-.envelope .letter{position:absolute;left:7%;right:7%;top:8%;height:86%;z-index:1;background:var(--paper);display:grid;place-items:center;
-  font-family:var(--display);font-style:italic;font-size:1.7rem;color:var(--berry);box-shadow:0 4px 14px rgba(0,0,0,.15);transition:transform .9s cubic-bezier(.2,.8,.2,1) .35s}
-.envelope .pocket{position:absolute;inset:0;z-index:2;background:#efe6cf;clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%);border-radius:4px}
-.flap{z-index:3;background:#e3d7b8;transition:transform .7s ease,z-index 0s linear .3s}
-.cover.open .flap{z-index:0}
-.cover.open .envelope .letter{transform:translateY(-64%)}
-.seal{z-index:4;transition:opacity .3s}
-.cover.open .seal{opacity:0}
-.cover{transition:opacity .8s ease 1s,visibility .8s ease 1s}
-.envelope{animation:float 3.6s ease-in-out infinite}
+
+.envelope{position:relative;width:min(340px,84vw);aspect-ratio:3/2;perspective:900px;animation:float 3.6s ease-in-out infinite;filter:drop-shadow(0 26px 34px rgba(0,0,0,.45)) drop-shadow(0 4px 6px rgba(0,0,0,.25))}
 .cover.open .envelope{animation:none}
 @keyframes float{50%{transform:translateY(-8px) rotate(-1deg)}}
-.cover .open-btn{animation:pulse 2.4s ease-in-out infinite}
+.envelope > *{position:absolute}
+.envelope .inside{inset:1.5% 1.2% 30% 1.2%;border-radius:4px;background:
+  repeating-linear-gradient(90deg,transparent 0 14px,rgba(212,170,90,.55) 14px 15px,transparent 15px 30px),
+  repeating-linear-gradient(0deg,transparent 0 14px,rgba(212,170,90,.55) 14px 15px,transparent 15px 30px),
+  repeating-linear-gradient(90deg,rgba(23,59,45,.55) 0 6px,transparent 6px 30px),
+  repeating-linear-gradient(0deg,rgba(23,59,45,.55) 0 6px,transparent 6px 30px),
+  #8d1c24;box-shadow:inset 0 10px 18px rgba(0,0,0,.45)}
+.envelope .letter{left:6%;right:6%;top:7%;height:88%;z-index:1;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  background:radial-gradient(120% 90% at 30% 20%,#fffdf6,#f7efdc 70%,#efe3c6);box-shadow:0 2px 10px rgba(0,0,0,.18);transition:transform 1s cubic-bezier(.2,.8,.2,1) .4s}
+.envelope .letter::before{content:"";position:absolute;inset:7px;border:1px solid rgba(180,137,59,.55);border-radius:2px}
+.letter .l-top{font:500 .62rem var(--body);letter-spacing:.28em;text-transform:uppercase;color:#8a6a2e}
+.letter .l-script{font-family:"Great Vibes",var(--display);font-size:2.6rem;line-height:1.05;padding:0 .1em;
+  background:linear-gradient(100deg,#9a6f27 10%,#e8c979 38%,#b0812f 55%,#f1d690 75%,#9a6f27 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.letter .l-year{font:600 .7rem var(--body);letter-spacing:.3em;color:#9e2b2b}
+.envelope .pocket{inset:0;z-index:2;width:100%;height:100%;overflow:visible}
+.envelope .flap{left:0;right:0;top:0;height:56%;z-index:3;transform-origin:50% 0;transform-style:preserve-3d;transition:transform .85s cubic-bezier(.4,.1,.2,1),z-index 0s linear .35s}
+.envelope .flap svg{position:absolute;inset:0;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:visible}
+.envelope .flap .back{transform:rotateX(180deg)}
+.cover.open .envelope .flap{transform:rotateX(180deg);z-index:0}
+.cover.open .envelope .letter{transform:translateY(-62%)}
+.envelope .seal{left:50%;top:54%;width:46%;z-index:4;transform:translate(-50%,-50%);transition:transform .45s cubic-bezier(.5,0,.75,0),opacity .45s;overflow:visible}
+.cover.open .envelope .seal{transform:translate(-50%,-50%) scale(1.25);opacity:0}
+.cover{transition:opacity .9s ease 1.25s,visibility .9s ease 1.25s;gap:18px}
+.cover .c-sub{margin:10px 0 -6px;color:#cdbf9c;font-family:var(--display);font-style:italic;font-size:1.15rem}
+.cover .c-fam{margin:0;font-family:"Great Vibes",var(--display);font-style:normal;font-size:2.5rem;line-height:1.1;color:#f3e3bd;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.cover .open-btn{animation:pulse 2.4s ease-in-out infinite;margin-top:4px}
 @keyframes pulse{50%{box-shadow:0 0 0 10px rgba(180,137,59,.18)}}
-
+.cover .c-hint{margin:0;font:400 .85rem var(--body);font-style:normal;color:rgba(233,217,180,.75);transition:opacity .4s}
+.cover .c-hint.off{opacity:0}
+.music{z-index:15}
+.burst{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:12}
 /* ===== Guirnalda de foquitos ===== */
 .lights{position:relative;height:46px;margin:-24px -8px 4px;z-index:2}
 .lights svg{width:100%;height:46px;overflow:visible}
@@ -300,12 +314,101 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 <body>
 
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Textura de papel: grano fino + fibras -->
+    <filter id="paper" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="4" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 .38  0 0 0 0 .3  0 0 0 0 .18  1.1 0 0 0 -.46" result="g"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".03 .35" numOctaves="2" seed="9" result="f"/>
+      <feColorMatrix in="f" type="matrix" values="0 0 0 0 .45  0 0 0 0 .36  0 0 0 0 .22  .7 0 0 0 -.33" result="fb"/>
+      <feMerge result="m"><feMergeNode in="g"/><feMergeNode in="fb"/></feMerge>
+      <feComposite in="m" in2="SourceGraphic" operator="in"/>
+    </filter>
+    <filter id="edge" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="1.6" stdDeviation="1.6" flood-color="#5a4320" flood-opacity=".35"/></filter>
+    <linearGradient id="pk-side" x1="0" x2="1"><stop offset="0" stop-color="#ece0c3"/><stop offset="1" stop-color="#e3d4b1"/></linearGradient>
+    <linearGradient id="pk-side-r" x1="1" x2="0"><stop offset="0" stop-color="#ece0c3"/><stop offset="1" stop-color="#e3d4b1"/></linearGradient>
+    <linearGradient id="pk-bot" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#f6eedb"/><stop offset="1" stop-color="#eadcbc"/></linearGradient>
+    <linearGradient id="fl-front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3ead3"/><stop offset="1" stop-color="#e2d2ad"/></linearGradient>
+    <pattern id="tartan" width="30" height="30" patternUnits="userSpaceOnUse">
+      <rect width="30" height="30" fill="#8d1c24"/>
+      <rect width="6" height="30" fill="#173b2d" opacity=".55"/><rect width="30" height="6" fill="#173b2d" opacity=".55"/>
+      <rect x="14" width="1" height="30" fill="#d4aa5a" opacity=".6"/><rect y="14" width="30" height="1" fill="#d4aa5a" opacity=".6"/>
+    </pattern>
+    <radialGradient id="wax" cx="38%" cy="32%" r="78%"><stop offset="0" stop-color="#dc4a52"/><stop offset=".42" stop-color="#a51c27"/><stop offset=".85" stop-color="#6c0d16"/><stop offset="1" stop-color="#4f0810"/></radialGradient>
+    <radialGradient id="wax-in" cx="45%" cy="40%" r="62%"><stop offset="0" stop-color="#ae2530"/><stop offset=".8" stop-color="#8b1620"/><stop offset="1" stop-color="#6d0f18"/></radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe7a8"/><stop offset=".35" stop-color="#d9ac55"/><stop offset=".6" stop-color="#f6dc95"/><stop offset="1" stop-color="#b8862f"/></linearGradient>
+    <filter id="wax-sh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="2.6" stdDeviation="2.4" flood-color="#2a0005" flood-opacity=".5"/></filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.4"/></filter>
+    <filter id="wax-tex" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="2" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 .8  0 0 0 0 .8  1.2 0 0 0 -.5"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
 <div class="cover" id="cover">
-  <div class="envelope" aria-hidden="true"><div class="letter">Feliz Navidad</div><div class="pocket"></div><div class="flap"></div><div class="seal">EG</div></div>
-  <p>Tienes una invitación de la Familia Estrada Guerrero</p>
+  <div class="envelope" id="envelope" aria-hidden="true">
+    <div class="inside"></div>
+    <div class="letter"><span class="l-top">Familia Estrada Guerrero</span><span class="l-script">Feliz Navidad</span><span class="l-year">2026</span></div>
+    <svg class="pocket" viewBox="0 0 300 200" preserveAspectRatio="none">
+      <path d="M0 6Q0 0 5 3L148 110L5 197Q0 200 0 194Z" fill="url(#pk-side)"/>
+      <path d="M0 6Q0 0 5 3L148 110L5 197Q0 200 0 194Z" filter="url(#paper)"/>
+      <path d="M300 6Q300 0 295 3L152 110L295 197Q300 200 300 194Z" fill="url(#pk-side-r)"/>
+      <path d="M300 6Q300 0 295 3L152 110L295 197Q300 200 300 194Z" filter="url(#paper)"/>
+      <g filter="url(#edge)">
+        <path d="M0 194V200H300V194L162 104Q150 96 138 104Z" fill="url(#pk-bot)" transform="translate(0 0)"/>
+      </g>
+      <path d="M0 194V200H300V194L162 104Q150 96 138 104Z" filter="url(#paper)"/>
+      <path d="M2 196L138 106M298 196L162 106" stroke="#fff" stroke-opacity=".45" stroke-width=".8" fill="none"/>
+    </svg>
+    <div class="flap">
+      <svg class="front" viewBox="0 0 300 112" preserveAspectRatio="none">
+        <g filter="url(#edge)"><path d="M0 0H300L163 104Q150 113 137 104Z" fill="url(#fl-front)"/></g>
+        <path d="M0 0H300L163 104Q150 113 137 104Z" filter="url(#paper)"/>
+        <path d="M3 1L139 102M297 1L161 102" stroke="#fff" stroke-opacity=".5" stroke-width=".8" fill="none"/>
+      </svg>
+      <svg class="back" viewBox="0 0 300 112" preserveAspectRatio="none">
+        <path d="M0 0H300L163 104Q150 113 137 104Z" fill="#efe4c9"/>
+        <path d="M8 4H292L161 98Q150 106 139 98Z" fill="url(#tartan)"/>
+      </svg>
+    </div>
+    <svg class="seal" viewBox="-28 -14 156 128">
+      <!-- ramita de pino y acebo detrás del sello -->
+      <g stroke="#1f4a37" stroke-width="1.3" stroke-linecap="round" fill="none" opacity=".95">
+        <path d="M22 70L-22 92"/><path d="M14 74l-7-9M8 77l-8-8M2 80l-9-6M-4 83l-9-4M-10 86l-9-2M14 74l-3 10M8 77l-4 10M2 80l-5 9M-4 83l-6 8M-10 86l-7 6"/>
+        <path d="M78 70L124 90"/><path d="M86 74l7-9M92 77l8-8M98 80l9-6M104 83l9-4M110 86l9-2M86 74l3 10M92 77l4 10M98 80l5 9M104 83l6 8M110 86l7 6"/>
+      </g>
+      <g transform="translate(30 76) rotate(152)"><path d="M0 0 Q5.8 -3.3 11.5 -6.4 Q17.2 -5.7 23.0 -9.0 Q28.8 -5.7 34.5 -6.4 Q40.2 -3.3 46.0 0.0 Q40.2 3.3 34.5 6.4 Q28.8 5.7 23.0 9.0 Q17.2 5.7 11.5 6.4 Q5.8 3.3 0.0 0.0Z" fill="#2c6a4c"/><path d="M2 0H44" stroke="#8fc2a4" stroke-width=".8"/></g>
+      <g transform="translate(70 76) rotate(28)"><path d="M0 0 Q5.8 -3.3 11.5 -6.4 Q17.2 -5.7 23.0 -9.0 Q28.8 -5.7 34.5 -6.4 Q40.2 -3.3 46.0 0.0 Q40.2 3.3 34.5 6.4 Q28.8 5.7 23.0 9.0 Q17.2 5.7 11.5 6.4 Q5.8 3.3 0.0 0.0Z" fill="#245a40"/><path d="M2 0H44" stroke="#8fc2a4" stroke-width=".8"/></g>
+      <g><circle cx="22" cy="84" r="5" fill="#b3202b"/><circle cx="30" cy="90" r="5" fill="#c1272f"/><circle cx="20.4" cy="82.4" r="1.4" fill="#fff" opacity=".7"/><circle cx="28.4" cy="88.4" r="1.4" fill="#fff" opacity=".7"/></g>
+      <!-- lacre -->
+      <path d="M93.7 44.9Q93.2 50.0 92.3 54.7Q91.4 59.4 90.8 64.4Q90.2 69.4 86.6 72.8Q82.9 76.3 80.2 80.4Q77.5 84.5 73.9 88.4Q70.4 92.3 65.2 93.3Q60.1 94.4 55.1 94.2Q50.0 94.0 45.3 92.5Q40.7 90.9 35.8 90.1Q31.0 89.4 27.4 86.2Q23.7 82.9 20.4 79.6Q17.0 76.3 13.8 72.6Q10.7 68.9 8.2 64.5Q5.7 60.1 6.7 55.1Q7.7 50.0 8.0 45.2Q8.3 40.5 9.1 35.6Q9.9 30.7 10.6 24.9Q11.3 19.2 16.8 17.2Q22.4 15.3 26.7 13.1Q31.1 10.8 35.4 7.9Q39.7 5.1 44.9 6.5Q50.0 8.0 55.1 6.8Q60.1 5.6 65.2 6.8Q70.2 8.0 73.3 12.4Q76.5 16.8 79.8 20.2Q83.1 23.6 86.0 27.4Q88.9 31.3 91.6 35.6Q94.3 39.9 93.7 44.9Z" fill="url(#wax)" filter="url(#wax-sh)"/>
+      <path d="M93.7 44.9Q93.2 50.0 92.3 54.7Q91.4 59.4 90.8 64.4Q90.2 69.4 86.6 72.8Q82.9 76.3 80.2 80.4Q77.5 84.5 73.9 88.4Q70.4 92.3 65.2 93.3Q60.1 94.4 55.1 94.2Q50.0 94.0 45.3 92.5Q40.7 90.9 35.8 90.1Q31.0 89.4 27.4 86.2Q23.7 82.9 20.4 79.6Q17.0 76.3 13.8 72.6Q10.7 68.9 8.2 64.5Q5.7 60.1 6.7 55.1Q7.7 50.0 8.0 45.2Q8.3 40.5 9.1 35.6Q9.9 30.7 10.6 24.9Q11.3 19.2 16.8 17.2Q22.4 15.3 26.7 13.1Q31.1 10.8 35.4 7.9Q39.7 5.1 44.9 6.5Q50.0 8.0 55.1 6.8Q60.1 5.6 65.2 6.8Q70.2 8.0 73.3 12.4Q76.5 16.8 79.8 20.2Q83.1 23.6 86.0 27.4Q88.9 31.3 91.6 35.6Q94.3 39.9 93.7 44.9Z" filter="url(#wax-tex)" opacity=".18"/>
+      <!-- zona presionada por el sello -->
+      <circle cx="50" cy="50" r="31.5" fill="none" stroke="#f7a3a9" stroke-opacity=".38" stroke-width="2.4" transform="translate(-.9 -.9)"/>
+      <circle cx="50" cy="50" r="31.5" fill="none" stroke="#3d040a" stroke-opacity=".55" stroke-width="2.4" transform="translate(1 1.2)"/>
+      <circle cx="50" cy="50" r="31" fill="url(#wax-in)"/>
+      <circle cx="50" cy="50" r="27" fill="none" stroke="url(#gold)" stroke-width=".9" stroke-dasharray=".2 2.6" stroke-linecap="round"/>
+      <circle cx="50" cy="50" r="24.6" fill="none" stroke="url(#gold)" stroke-width=".5" opacity=".8"/>
+      <!-- iniciales con relieve y hoja de oro -->
+      <g font-family="'Pinyon Script', 'Great Vibes', cursive" font-size="40" text-anchor="middle">
+        <text x="51.2" y="64.2" fill="#3a0409" opacity=".7">EG</text>
+        <text x="49.2" y="62.4" fill="#ffb3b9" opacity=".35">EG</text>
+        <text x="50" y="63.2" fill="url(#gold)" stroke="#8a5f1e" stroke-width=".25">EG</text>
+      </g>
+      <!-- brillo del lacre -->
+      <ellipse cx="34" cy="24" rx="14" ry="6.5" fill="#fff" opacity=".22" transform="rotate(-32 34 24)" filter="url(#soft)"/>
+      <path d="M20 30Q26 18 38 13" stroke="#fff" stroke-opacity=".35" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <p class="c-sub">Tienes una invitación de la</p>
+  <p class="c-fam">Familia Estrada Guerrero</p>
   <button class="open-btn" id="abrir" type="button">Abrir invitación</button>
+  <p class="c-hint" id="hint">Toca la pantalla para escuchar la música ♪</p>
 </div>
-<button class="music" id="music" type="button" aria-pressed="false" aria-label="Música" hidden>
+<button class="music" id="music" type="button" aria-pressed="false" aria-label="Música">
   <svg class="on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
   <svg class="off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="m22 9-6 6M16 9l6 6"/></svg>
 </button>
@@ -532,7 +635,8 @@ document.getElementById("copiar").addEventListener("click", async e => {
 });
 
 
-/* Música: "We Wish You a Merry Christmas" (villancico tradicional, dominio público), sintetizado en el navegador */
+/* Música: "We Wish You a Merry Christmas" (villancico tradicional, dominio público), sintetizada en el navegador.
+   Se programa poco a poco (medio segundo adelante) para que no se corte en celulares, con compresor y un poco de eco para que no sature. */
 const Music = (() => {
   const N = n => 440 * Math.pow(2, (n - 69) / 12);
   const m = {D4:62,E4:64,"F#4":66,G4:67,A4:69,B4:71,C5:72,D5:74,G3:55,C4:60,D3:50,E3:52};
@@ -556,71 +660,172 @@ const Music = (() => {
     ["G4",3]
   ];
   const bass = ["G3","C4","D3","D3","E3","C4","D3","G3","G3","D3","E3","D3","G3","G3","D3","G3"];
-  const beat = .42;
-  let ctx, master, timer, playing = false, next = 0;
+  const beat = .44;
+  // Lista de notas con su tiempo (en pulsos) dentro de una vuelta de la canción
+  const events = []; let tb = 0;
+  for (const [n, d] of mel){ events.push({ t: tb, f: N(m[n]), d, v: .2, k: "mel" }); tb += d; }
+  bass.forEach((b, i) => events.push({ t: 1 + i * 3, f: N(m[b]) / 2, d: 3, v: .11, k: "bass" }));
+  events.sort((a, b) => a.t - b.t);
+  const loopBeats = tb + 2;
 
-  function bell(t, freq, dur, vol){
+  let ctx = null, bus, master, timer, idx = 0, loopStart = 0, wanted = true;
+
+  function impulse(sec){
+    const len = Math.floor(ctx.sampleRate * sec), buf = ctx.createBuffer(2, len, ctx.sampleRate);
+    for (let c = 0; c < 2; c++){ const d = buf.getChannelData(c); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3); }
+    return buf;
+  }
+  function build(){
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    bus = ctx.createGain(); bus.gain.value = .55;
+    const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 4200; lp.Q.value = .4;
+    const comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -20; comp.knee.value = 14; comp.ratio.value = 4; comp.attack.value = .004; comp.release.value = .25;
+    const dry = ctx.createGain(); dry.gain.value = .85;
+    const rev = ctx.createConvolver(); rev.buffer = impulse(2.2);
+    const wet = ctx.createGain(); wet.gain.value = .22;
+    master = ctx.createGain(); master.gain.value = 0;
+    bus.connect(lp); lp.connect(dry); lp.connect(rev); rev.connect(wet);
+    dry.connect(comp); wet.connect(comp); comp.connect(master); master.connect(ctx.destination);
+    loopStart = ctx.currentTime + .2; idx = 0;
+    timer = setInterval(pump, 90);
+    ctx.onstatechange = () => onState && onState();
+  }
+  // Campana suave: fundamental + armónicos ligeros, ataque corto sin chasquidos
+  function note(t, e){
+    const dur = e.k === "bass" ? e.d * beat * .95 : Math.max(.55, e.d * beat * 1.5);
     const g = ctx.createGain();
     g.gain.setValueAtTime(0, t);
-    g.gain.linearRampToValueAtTime(vol, t + .01);
-    g.gain.exponentialRampToValueAtTime(.0008, t + Math.max(.6, dur * 1.6));
-    g.connect(master);
-    [[1,1],[2,.35],[3.01,.12]].forEach(([h,a]) => {
+    g.gain.linearRampToValueAtTime(e.v, t + (e.k === "bass" ? .03 : .012));
+    g.gain.exponentialRampToValueAtTime(.0005, t + dur);
+    g.connect(bus);
+    const parts = e.k === "bass" ? [[1, 1, "triangle"]] : [[1, 1, "sine"], [2, .22, "sine"], [3.01, .06, "sine"]];
+    for (const [h, a, type] of parts){
       const o = ctx.createOscillator(), og = ctx.createGain();
-      o.type = "sine"; o.frequency.value = freq * h; og.gain.value = a;
-      o.connect(og); og.connect(g); o.start(t); o.stop(t + Math.max(.7, dur * 1.7));
-    });
+      o.type = type; o.frequency.value = e.f * h; og.gain.value = a;
+      o.connect(og); og.connect(g); o.start(t); o.stop(t + dur + .05);
+    }
   }
-  function schedule(){
-    const start = next;
-    let t = start;
-    for (const [n, d] of mel){ bell(t, N(m[n]), d * beat, .16); t += d * beat; }
-    // bajo suave en cada compás (3/4), después de la anacrusa
-    let bt = start + beat;
-    for (const b of bass){ bell(bt, N(m[b]) / 2, 3 * beat, .07); bt += 3 * beat; }
-    next = t + beat * 2;
-    timer = setTimeout(() => playing && schedule(), (next - ctx.currentTime - 1) * 1000);
+  function pump(){
+    if (!ctx || ctx.state !== "running") return;
+    const now = ctx.currentTime, ahead = now + .6;
+    while (true){
+      const e = events[idx], t = loopStart + e.t * beat;
+      if (t > ahead) break;
+      if (t >= now - .03) note(Math.max(t, now), e);
+      if (++idx >= events.length){ idx = 0; loopStart += loopBeats * beat; }
+    }
   }
+  let onState = null;
   return {
+    set onchange(fn){ onState = fn; },
+    get on(){ return !!ctx && ctx.state === "running" && wanted; },
+    get wanted(){ return wanted; },
     start(){
       try {
-        ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-        if (!master){ master = ctx.createGain(); master.gain.value = .9; master.connect(ctx.destination); }
-        ctx.resume();
-        if (playing) return true;
+        if (!ctx) build();
+        wanted = true;
+        const r = ctx.resume();
         master.gain.cancelScheduledValues(ctx.currentTime);
-        master.gain.setValueAtTime(.9, ctx.currentTime);
-        playing = true; next = ctx.currentTime + .15; schedule();
+        master.gain.setTargetAtTime(.75, ctx.currentTime, .5);
+        if (r && r.then) r.then(() => onState && onState(), () => {});
         return true;
       } catch { return false; }
     },
     stop(){
+      wanted = false;
       if (!ctx) return;
-      playing = false; clearTimeout(timer);
-      master.gain.setTargetAtTime(0, ctx.currentTime, .15);
-      setTimeout(() => { if (!playing){ master.disconnect(); master = null; } }, 600);
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setTargetAtTime(0, ctx.currentTime, .12);
+      setTimeout(() => { if (!wanted) ctx.suspend(); }, 500);
+      onState && onState();
     },
-    get playing(){ return playing; }
+    pause(){ if (ctx && ctx.state === "running") ctx.suspend(); },
+    resume(){ if (ctx && wanted) ctx.resume(); }
   };
 })();
 
 const musicBtn = document.getElementById("music");
+const hint = document.getElementById("hint");
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+Music.onchange = () => {
+  musicBtn.setAttribute("aria-pressed", String(Music.on));
+  if (hint) hint.classList.toggle("off", Music.on || !Music.wanted);
+};
+/* La música intenta sonar en cuanto se abre el enlace. Si el navegador lo bloquea,
+   arranca con el primer toque en cualquier parte de la pantalla. */
+Music.start();
+const unlockEvents = ["pointerdown", "touchend", "click", "keydown"];
+function unlock(){
+  if (Music.wanted) Music.start();
+  unlockEvents.forEach(ev => removeEventListener(ev, unlock, true));
+}
+unlockEvents.forEach(ev => addEventListener(ev, unlock, true));
+
 document.documentElement.classList.add("await");
 document.getElementById("abrir").addEventListener("click", () => {
-  document.getElementById("cover").classList.add("open");
-  musicBtn.hidden = false;
-  musicBtn.setAttribute("aria-pressed", String(Music.start()));
-  setTimeout(() => { document.documentElement.classList.remove("await"); document.documentElement.classList.add("go"); }, 1100);
-  setTimeout(() => document.getElementById("cover").remove(), 1900);
+  const cover = document.getElementById("cover");
+  if (cover.classList.contains("open")) return;
+  snowBurst(document.getElementById("envelope"));
+  cover.classList.add("open");
+  if (Music.wanted) Music.start();
+  setTimeout(() => { document.documentElement.classList.remove("await"); document.documentElement.classList.add("go"); }, 1500);
+  setTimeout(() => cover.remove(), 2300);
 });
-musicBtn.addEventListener("click", () => {
-  if (Music.playing){ Music.stop(); musicBtn.setAttribute("aria-pressed","false"); }
-  else { musicBtn.setAttribute("aria-pressed", String(Music.start())); }
+musicBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  if (Music.on) Music.stop(); else Music.start();
 });
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden && Music.playing){ Music.stop(); musicBtn.setAttribute("aria-pressed","false"); }
-});
+document.addEventListener("visibilitychange", () => { if (document.hidden) Music.pause(); else Music.resume(); });
+
+/* Explosión de nieve alrededor del sobre al abrirlo */
+function snowBurst(el){
+  if (reduceMotion) return;
+  const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  const c = document.createElement("canvas"); c.className = "burst"; document.body.appendChild(c);
+  const ctx = c.getContext("2d"), dpr = Math.min(2, devicePixelRatio || 1);
+  c.width = innerWidth * dpr; c.height = innerHeight * dpr; ctx.scale(dpr, dpr);
+  const ps = [];
+  for (let i = 0; i < 190; i++){
+    // nacen en el borde del sobre y salen hacia afuera
+    const a = Math.random() * Math.PI * 2;
+    const ex = Math.cos(a) * r.width * .5, ey = Math.sin(a) * r.height * .5;
+    const sp = 2.5 + Math.random() * 7.5, big = Math.random() < .22;
+    ps.push({ x: cx + ex * (.6 + Math.random() * .4), y: cy + ey * (.6 + Math.random() * .4),
+      vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 1.2, s: big ? 5 + Math.random() * 5 : 1.2 + Math.random() * 2.8,
+      star: big, rot: Math.random() * 6, vr: (Math.random() - .5) * .12, life: 1, fade: .006 + Math.random() * .008, w: Math.random() * 6 });
+  }
+  function flake(p){
+    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+    ctx.strokeStyle = "rgba(255,255,255," + p.life + ")"; ctx.lineWidth = 1.2; ctx.lineCap = "round";
+    for (let k = 0; k < 6; k++){
+      ctx.rotate(Math.PI / 3); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, p.s);
+      ctx.moveTo(0, p.s * .55); ctx.lineTo(p.s * .28, p.s * .78); ctx.moveTo(0, p.s * .55); ctx.lineTo(-p.s * .28, p.s * .78); ctx.stroke();
+    }
+    ctx.restore();
+  }
+  const t0 = performance.now();
+  (function f(t){
+    const k = (t - t0) / 1000;
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    // destello suave detrás del sobre
+    if (k < .7){
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r.width * (.5 + k));
+      g.addColorStop(0, "rgba(255,255,255," + (.55 * (1 - k / .7)) + ")"); g.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = g; ctx.fillRect(0, 0, innerWidth, innerHeight);
+    }
+    let alive = false;
+    ctx.shadowColor = "rgba(255,255,255,.9)"; ctx.shadowBlur = 6;
+    for (const p of ps){
+      p.vx *= .955; p.vy = p.vy * .955 + .035; p.w += .05;
+      p.x += p.vx + Math.sin(p.w) * .35; p.y += p.vy; p.rot += p.vr; p.life -= p.fade;
+      if (p.life <= 0) continue; alive = true;
+      if (p.star) flake(p);
+      else { ctx.fillStyle = "rgba(255,255,255," + p.life + ")"; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, 7); ctx.fill(); }
+    }
+    if (alive && k < 4) requestAnimationFrame(f); else c.remove();
+  })(t0);
+}
 
 /* Guirnalda: foquitos a lo largo del cable */
 (() => {
