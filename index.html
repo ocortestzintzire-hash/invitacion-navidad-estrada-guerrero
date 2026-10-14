@@ -358,10 +358,10 @@ function buildMessage(){
   const nombre = document.getElementById("nombre").value.trim();
   const asiste = form.asiste.value === "si";
   const mensaje = document.getElementById("mensaje").value.trim();
-  let txt = "🎄 Confirmación — Navidad Familia Estrada Guerrero\n\n";
+  let txt = "*Confirmación - Navidad Familia Estrada Guerrero*\n\n";
   txt += "Nombre: " + nombre + "\n";
   if (asiste){
-    txt += "Asistencia: Sí ✅\n";
+    txt += "Asistencia: Sí\n";
     txt += "Personas: " + personas + "\n";
     txt += "Días: " + form.dias.value + "\n";
   } else {
