@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="only light">
+<meta name="darkreader-lock">
 <title>🎄 ¡Tienes una invitación! · Familia Estrada Guerrero</title>
 <meta name="description" content="La Familia Estrada Guerrero te invita a pasar la Navidad. 24 y 25 de diciembre en Club Campestre Kercus. Toca para ver la invitación y confirmar.">
 <meta property="og:type" content="website">
@@ -41,7 +43,7 @@
   --line:#e6dcc4;
   --display:"Cormorant Garamond", Georgia, "Times New Roman", serif;
   --body:"Jost", "Segoe UI", system-ui, sans-serif;
-  color-scheme: light;
+  color-scheme: only light;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -58,7 +60,7 @@ body{
   padding-block:40px 56px;
 }
 #snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.wrap{position:relative;z-index:1;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
 
 .card{
   background:var(--paper);
@@ -117,7 +119,7 @@ body{
 
 /* RSVP */
 .rsvp{text-align:left}
-.rsvp h2{font-family:var(--display);font-weight:600;font-size:2rem;margin:0 0 4px;text-align:center}
+.rsvp h2{font-family:var(--display);font-weight:600;font-size:2rem;line-height:1.1;margin:0 0 4px;text-align:center}
 .rsvp .lead{margin:0 0 22px;text-align:center;color:var(--muted);font-size:.95rem}
 form{display:flex;flex-direction:column;gap:18px}
 label.f{display:flex;flex-direction:column;gap:6px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
@@ -156,7 +158,7 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 .foot{text-align:center;color:var(--gold-soft);font-family:var(--display);font-style:italic;font-size:1.05rem}
 
 @media (max-width:440px){
-  .card{padding:36px 22px 30px}
+  .card{padding:50px 28px 42px}
   .details{grid-template-columns:1fr;gap:14px}
   .countdown{gap:10px}
 }
@@ -220,6 +222,15 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 .cover .c-hint.off{opacity:0}
 .music{z-index:15}
 .burst{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:12}
+/* ===== Serpentina con luces alrededor de las tarjetas ===== */
+.card{padding:58px 40px 50px}
+.card::before{inset:20px}
+.tinsel{position:absolute;inset:-13px;pointer-events:none;z-index:3}
+.tinsel canvas{position:absolute;inset:0;width:100%;height:100%}
+.tinsel .lt{position:absolute;width:8px;height:10px;margin:-5px 0 0 -4px;border-radius:50% 50% 46% 46%;
+  background:radial-gradient(circle at 38% 32%,#fff 0 16%,var(--c) 52%,var(--c2) 100%);
+  box-shadow:0 0 5px 1px var(--c),0 0 16px 5px var(--g);animation:blink var(--t,2s) ease-in-out var(--d,0s) infinite}
+@keyframes blink{50%{opacity:.45;box-shadow:0 0 2px 0 var(--c),0 0 6px 1px var(--g)}}
 /* ===== Guirnalda de foquitos ===== */
 .lights{position:relative;height:46px;margin:-24px -8px 4px;z-index:2}
 .lights svg{width:100%;height:46px;overflow:visible}
@@ -306,7 +317,7 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 .foot{font-size:1.6rem;color:#f3e3bd;margin-top:0}
 
 @media (prefers-reduced-motion:reduce){
-  .envelope,.cover .open-btn,.lights .bulb,.countdown .orn .ball,.note .flake{animation:none!important}
+  .envelope,.cover .open-btn,.tinsel .lt,.countdown .orn .ball,.note .flake{animation:none!important}
   .go *{animation:none!important}
 }
 </style>
@@ -416,11 +427,6 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 
 <main class="wrap">
   <article class="card hero">
-    <div class="lights" aria-hidden="true">
-      <svg viewBox="0 0 400 46" preserveAspectRatio="none">
-        <path d="M0 6 Q50 30 100 10 T200 10 T300 10 T400 6" fill="none" stroke="#2b3d33" stroke-width="1.5"/>
-      </svg>
-    </div>
     <svg class="sprig seq" viewBox="0 0 120 60" aria-hidden="true">
       <g fill="none" stroke="#2f5a46" stroke-width="2" stroke-linecap="round">
         <path d="M60 46 C46 30 28 22 8 22"/>
@@ -827,17 +833,74 @@ function snowBurst(el){
   })(t0);
 }
 
-/* Guirnalda: foquitos a lo largo del cable */
+/* Serpentina navideña con luces alrededor de cada tarjeta */
 (() => {
-  const svg = document.querySelector(".lights svg"), path = svg.querySelector("path"), NS = "http://www.w3.org/2000/svg";
-  const colors = ["#e04848", "#f2c14e", "#3fbf7f", "#5aa7ff", "#f08ad0"], L = path.getTotalLength(), n = 14;
-  for (let i = 0; i < n; i++){
-    const p = path.getPointAtLength((i + .5) / n * L), c = colors[i % colors.length];
-    const g = document.createElementNS(NS, "g"); g.setAttribute("class", "bulb"); g.style.color = c;
-    g.style.setProperty("--t", (1.4 + (i % 3) * .5) + "s"); g.style.setProperty("--d", (-(i * .37)) + "s");
-    g.innerHTML = '<rect x="' + (p.x - 2.5) + '" y="' + (p.y - 1) + '" width="5" height="5" rx="1" fill="#3c4a40"/><ellipse cx="' + p.x + '" cy="' + (p.y + 11) + '" rx="5" ry="8" fill="' + c + '"/><ellipse cx="' + (p.x - 1.6) + '" cy="' + (p.y + 8) + '" rx="1.4" ry="2.6" fill="#fff" opacity=".6"/>';
-    svg.appendChild(g);
+  const PAD = 13, R = 10;
+  const greens = ["#0b2e1c", "#0f3b24", "#14502f", "#1b6339", "#237444", "#2f8a50", "#45a463", "#6cc082"];
+  const bulbs = [["#ff5b5b", "#a31616", "rgba(255,70,70,.45)"], ["#ffd34d", "#b98a0c", "rgba(255,206,70,.45)"],
+                 ["#5aa7ff", "#1e5fb8", "rgba(80,160,255,.45)"], ["#53e08f", "#1d8a4c", "rgba(80,230,140,.4)"],
+                 ["#fff4d6", "#d6b46a", "rgba(255,240,200,.5)"]];
+  // Recorre el borde redondeado de la tarjeta y devuelve puntos con su dirección hacia afuera
+  function perimeter(w, h, step){
+    const pts = [], segs = [
+      [R, 0, w - R, 0, 0, -1], [w, R, w, h - R, 1, 0], [w - R, h, R, h, 0, 1], [0, h - R, 0, R, -1, 0]];
+    const corners = [[w - R, R, -Math.PI / 2], [w - R, h - R, 0], [R, h - R, Math.PI / 2], [R, R, Math.PI]];
+    segs.forEach(([x1, y1, x2, y2, nx, ny], i) => {
+      const len = Math.hypot(x2 - x1, y2 - y1);
+      for (let d = 0; d < len; d += step){ const k = d / len; pts.push([x1 + (x2 - x1) * k, y1 + (y2 - y1) * k, nx, ny]); }
+      const [cx, cy, a0] = corners[i], arc = Math.PI / 2 * R;
+      for (let d = 0; d < arc; d += step){ const a = a0 + d / R; pts.push([cx + Math.cos(a) * R, cy + Math.sin(a) * R, Math.cos(a), Math.sin(a)]); }
+    });
+    return pts;
   }
+  function draw(card, box){
+    const w = card.offsetWidth, h = card.offsetHeight; if (!w || !h) return;
+    const cv = box.querySelector("canvas"), dpr = Math.min(2, devicePixelRatio || 1);
+    cv.width = (w + PAD * 2) * dpr; cv.height = (h + PAD * 2) * dpr;
+    const ctx = cv.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, PAD * dpr, PAD * dpr);
+    let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const pts = perimeter(w, h, 1.6);
+    // cuerpo de la serpentina
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "#0a2617"; ctx.lineWidth = 9; ctx.beginPath();
+    pts.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.closePath(); ctx.stroke();
+    // agujas: de oscuras (abajo) a claras (arriba) para dar volumen
+    for (let layer = 0; layer < 3; layer++){
+      for (let i = 0; i < pts.length; i++){
+        const [x, y, nx, ny] = pts[i], wob = Math.sin(i / 23) * 1.6;
+        const bx = x + nx * wob, by = y + ny * wob;
+        for (let k = 0; k < 3; k++){
+          const a = rnd() * Math.PI * 2, len = (layer === 2 ? 4 : 6) + rnd() * (layer === 2 ? 6 : 9);
+          const c = layer === 0 ? greens[Math.floor(rnd() * 3)] : layer === 1 ? greens[2 + Math.floor(rnd() * 4)] : greens[4 + Math.floor(rnd() * 4)];
+          ctx.strokeStyle = c; ctx.lineWidth = layer === 2 ? .7 : .9; ctx.beginPath();
+          ctx.moveTo(bx + (rnd() - .5) * 3, by + (rnd() - .5) * 3);
+          ctx.lineTo(bx + Math.cos(a) * len, by + Math.sin(a) * len); ctx.stroke();
+        }
+      }
+    }
+    // destellos tipo escarcha
+    ctx.fillStyle = "rgba(255,255,255,.55)";
+    for (let i = 0; i < pts.length; i += 9){ const [x, y] = pts[i]; ctx.fillRect(x + (rnd() - .5) * 14, y + (rnd() - .5) * 14, 1, 1); }
+    // focos
+    box.querySelectorAll(".lt").forEach(e => e.remove());
+    const gap = 46; let n = 0;
+    for (let i = 0; i < pts.length; i += Math.round(gap / 1.6)){
+      const [x, y, nx, ny] = pts[i], [c, c2, g] = bulbs[n % bulbs.length], off = (n % 2 ? 3 : -3);
+      const el = document.createElement("i"); el.className = "lt";
+      el.style.left = (x + PAD + nx * off) + "px"; el.style.top = (y + PAD + ny * off) + "px";
+      el.style.setProperty("--c", c); el.style.setProperty("--c2", c2); el.style.setProperty("--g", g);
+      el.style.setProperty("--t", (1.6 + (n % 4) * .45) + "s"); el.style.setProperty("--d", (-(n * .53) % 3) + "s");
+      box.appendChild(el); n++;
+    }
+  }
+  document.querySelectorAll(".card").forEach(card => {
+    const box = document.createElement("div"); box.className = "tinsel"; box.setAttribute("aria-hidden", "true");
+    box.appendChild(document.createElement("canvas")); card.appendChild(box);
+    let last = "", t;
+    const redraw = () => { const k = card.offsetWidth + "x" + card.offsetHeight; if (k !== last){ last = k; draw(card, box); } };
+    redraw();
+    if ("ResizeObserver" in window) new ResizeObserver(() => { clearTimeout(t); t = setTimeout(redraw, 120); }).observe(card);
+  });
 })();
 
 /* Aparición al bajar */
