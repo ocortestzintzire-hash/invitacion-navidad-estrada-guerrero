@@ -55,8 +55,9 @@ body{
   font-size:16px;
   line-height:1.55;
   min-height:100vh;
-  padding-left:max(16px, env(safe-area-inset-left, 0px));
-  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  overflow-x:clip;
+  padding-left:max(22px, env(safe-area-inset-left, 0px));
+  padding-right:max(22px, env(safe-area-inset-right, 0px));
   padding-block:40px 56px;
 }
 #snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
@@ -223,6 +224,73 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 @keyframes pulse{50%{transform:scale(1.04)}}
 .cover .c-hint{margin:0;font:400 .85rem var(--body);font-style:normal;color:rgba(233,217,180,.75);transition:opacity .4s}
 .cover .c-hint.off{opacity:0}
+
+/* ===== Portada y carta con el mismo nivel de detalle que las hojas rojas ===== */
+:root{--damask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='%23f0cf7a' fill-opacity='.09'%3E%3Cpath d='M22 5l2.6 6.4L31 14l-6.4 2.6L22 23l-2.6-6.4L13 14l6.4-2.6z'/%3E%3Cpath d='M0 27l1.6 3.4L5 32l-3.4 1.6L0 37l-1.6-3.4L-5 32l3.4-1.6zM44 27l1.6 3.4L49 32l-3.4 1.6L44 37l-1.6-3.4L39 32l3.4-1.6z'/%3E%3Ccircle cx='22' cy='34' r='1.8'/%3E%3C/g%3E%3C/svg%3E")}
+.cover{
+  --gold-foil:linear-gradient(100deg,#d9ac55 0%,#fff0b8 25%,#d9ac55 50%,#f6dc95 75%,#d9ac55 100%);
+  background:var(--damask),radial-gradient(70% 45% at 50% 58%,rgba(168,35,46,.34),transparent 72%),radial-gradient(120% 80% at 50% 0%,var(--night-2) 0%,var(--night) 70%);
+  padding-bottom:calc(max(24px, env(safe-area-inset-bottom, 0px)) + 56px);
+}
+/* marco dorado doble alrededor de toda la portada */
+.cover::before,.cover::after{content:"";position:absolute;pointer-events:none;border-radius:2px}
+.cover::before{inset:12px;border:1px solid rgba(233,201,121,.7)}
+.cover::after{inset:18px;border:1px solid rgba(233,201,121,.24)}
+.cv-decor{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.cv-decor .fl{width:34px;height:34px}
+.cv-decor .fl.tl{left:9px;top:9px}.cv-decor .fl.tr{right:9px;top:9px}
+.cv-decor .fl.bl{left:9px;bottom:9px}.cv-decor .fl.br{right:9px;bottom:9px}
+.cv-decor .fl{animation:flin 1.2s ease .3s both}
+.cv-orn{position:absolute;overflow:visible;animation:pop .9s cubic-bezier(.3,1.5,.5,1) calc(.3s + var(--i,0) * .18s) both}
+.cv-orn.poin{width:96px;height:96px;top:-6px;left:-14px}
+.cv-orn.poin.r{left:auto;right:-14px}
+.cv-orn.holly{width:78px;height:78px}
+.cv-orn.pile{width:150px;height:118px;bottom:-12px}
+.cv-orn.pile.l{left:-12px}.cv-orn.pile.r{right:-12px}
+.cvb{position:absolute;top:0;left:var(--x);width:34px;margin-left:-17px;display:flex;flex-direction:column;align-items:center;transform-origin:50% 0;
+  animation:bdrop 1.1s cubic-bezier(.3,1.3,.5,1) calc(.5s + var(--i) * .15s) both,swing 5s ease-in-out calc(1.8s + var(--i) * .15s) infinite}
+.cvb i{display:block;font-style:normal}
+.cvb .str{width:1px;height:var(--len);background:linear-gradient(#e9c979,#b4893b)}
+.cvb .cap{width:10px;height:6px;border-radius:2px 2px 0 0;background:linear-gradient(90deg,#9a7330,#f3dc9a,#9a7330)}
+.cvb .ball{width:var(--d);height:var(--d);border-radius:50%;position:relative;overflow:hidden;
+  background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.85) 0 7%,transparent 22%),radial-gradient(circle at 50% 50%,var(--c1),var(--c2));
+  box-shadow:inset -4px -5px 9px rgba(0,0,0,.3),0 5px 10px rgba(0,0,0,.3)}
+.cvb .ball::after{content:"";position:absolute;left:0;right:0;top:44%;height:14%;background:linear-gradient(90deg,transparent,rgba(255,226,150,.8),transparent)}
+.cv-decor .twinkles{z-index:1}
+.await .cover:not(.open) .tw{animation-play-state:running}
+.cover.open .cv-orn,.cover.open .cvb,.cover.open .tw,.cover.open .fl{animation-play-state:paused}
+@media (hover:hover) and (pointer:fine){ .cv-orn{filter:drop-shadow(0 6px 7px rgba(0,0,0,.4))} }
+.cover .c-sub{display:flex;align-items:center;gap:10px;color:#e9c979;letter-spacing:.02em}
+.cover .c-sub::before,.cover .c-sub::after{content:"✦";font-size:.62em;font-style:normal;color:#f6dc95;opacity:.9}
+.cover .c-fam{background:var(--gold-foil);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;text-shadow:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.cover .open-btn{border:1px solid #fff0b8;background:linear-gradient(180deg,#f6dc95,#d9ac55 55%,#b4893b);color:#3a0a10;
+  box-shadow:0 8px 22px rgba(0,0,0,.45),0 0 0 5px rgba(233,201,121,.16),inset 0 1px 0 rgba(255,255,255,.6)}
+.cover .open-btn::before{content:"🎁";margin-right:.5em}
+.cover .c-hint{color:#e9d9b4}
+
+/* La carta que sale del sobre: papel rojo con damasco, marco dorado y adornos */
+.envelope .letter{
+  background:var(--damask),radial-gradient(90% 55% at 50% 0%,rgba(255,130,120,.32),transparent 70%),linear-gradient(165deg,#a8232e 0%,#7d1620 46%,#4f0a12 100%);
+  box-shadow:0 2px 12px rgba(0,0,0,.3),0 0 0 1px rgba(233,201,121,.35),inset 0 0 40px rgba(35,0,6,.45);
+}
+.envelope .letter::before{inset:6px;border:1px solid rgba(233,201,121,.85)}
+.envelope .letter::after{content:"";position:absolute;inset:11px;border:1px solid rgba(233,201,121,.28);border-radius:2px;pointer-events:none}
+.letter .l-top{color:#e9c979;position:relative;z-index:1}
+.letter .l-script{background:linear-gradient(100deg,#d9ac55 0%,#fff0b8 28%,#d9ac55 52%,#f6dc95 76%,#d9ac55 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;position:relative;z-index:1}
+.letter .l-year{color:#f6dc95;position:relative;z-index:1}
+.letter .l-rule{display:flex;align-items:center;justify-content:center;gap:8px;width:62%;margin:2px 0 3px;position:relative;z-index:1}
+.letter .l-rule::before,.letter .l-rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#e9c979)}
+.letter .l-rule::after{background:linear-gradient(270deg,transparent,#e9c979)}
+.letter .l-rule svg{width:11px;height:11px;flex:none}
+.letter .fl{position:absolute;width:22px;height:22px;z-index:1}
+.letter .fl.tl{left:9px;top:9px}.letter .fl.tr{right:9px;top:9px}
+.letter .l-deco{position:absolute;z-index:2;overflow:visible;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4));opacity:0;transition:opacity .5s ease .9s}
+.cover.open .letter .l-deco{opacity:1}
+.music{transition:transform .6s ease}
+.await .music{transform:translateY(-100px)}
+.letter .l-deco.tl{width:50px;height:50px;left:-14px;top:-20px}
+.letter .l-deco.tr{width:50px;height:50px;right:-14px;top:-20px}
+.letter .l-deco.mid{width:26px;height:26px;left:50%;top:-12px;margin-left:-13px}
 .music{z-index:15}
 .burst{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:12}
 /* ===== Serpentina con luces alrededor de las tarjetas ===== */
@@ -319,17 +387,192 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
 @keyframes shine{50%{filter:drop-shadow(0 0 8px #ffd77a)}}
 .foot{font-size:1.6rem;color:#f3e3bd;margin-top:0}
 
+/* ===== Hoja roja premium: terciopelo, foil dorado y adornos ===== */
+.card.hero,.card.rsvp{
+  --gold-foil:linear-gradient(100deg,#d9ac55 0%,#fff0b8 25%,#d9ac55 50%,#f6dc95 75%,#d9ac55 100%);
+  color:#f6e7c4;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='%23f0cf7a' fill-opacity='.08'%3E%3Cpath d='M22 5l2.6 6.4L31 14l-6.4 2.6L22 23l-2.6-6.4L13 14l6.4-2.6z'/%3E%3Cpath d='M0 27l1.6 3.4L5 32l-3.4 1.6L0 37l-1.6-3.4L-5 32l3.4-1.6zM44 27l1.6 3.4L49 32l-3.4 1.6L44 37l-1.6-3.4L39 32l3.4-1.6z'/%3E%3Ccircle cx='22' cy='34' r='1.8'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(90% 55% at 50% 0%,rgba(255,130,120,.30),transparent 70%),
+    linear-gradient(165deg,#a8232e 0%,#7d1620 46%,#4f0a12 100%);
+  box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 0 1px rgba(233,201,121,.3),inset 0 0 80px rgba(35,0,6,.5);
+}
+.card.hero::before,.card.rsvp::before{border-color:rgba(233,201,121,.8)}
+.card.hero::after,.card.rsvp::after{content:"";position:absolute;inset:26px;border:1px solid rgba(233,201,121,.26);border-radius:2px;pointer-events:none}
+.fl{position:absolute;width:34px;height:34px;pointer-events:none;z-index:1}
+.fl.tl{left:16px;top:16px}.fl.tr{right:16px;top:16px;transform:scaleX(-1)}
+.fl.bl{left:16px;bottom:16px;transform:scaleY(-1)}.fl.br{right:16px;bottom:16px;transform:scale(-1,-1)}
+.go .fl{animation:flin 1.4s ease 1.2s both}
+@keyframes flin{from{opacity:0}}
+
+.card.hero .blessing{color:#f3e3c3}
+.card.hero .family{color:#fff0cf}
+.card.hero .family span{color:#e9c979}
+.card.hero .family .fam{background:var(--gold-foil);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 2px 5px rgba(30,0,6,.55))}
+.card.hero .invite{color:#f6e7c4}
+.card.hero .rule{color:#e9c979}
+.card.hero .rule::before{background:linear-gradient(90deg,transparent,#e9c979)}
+.card.hero .rule::after{background:linear-gradient(270deg,transparent,#e9c979)}
+.card.hero .details dt{color:#e9c979}
+.card.hero .details dd{color:#fff0cf}
+.card.hero .details dd small{color:rgba(255,240,207,.72)}
+.card.hero .details > div{background:rgba(30,0,6,.28);border:1px solid rgba(233,201,121,.28);border-radius:8px;padding:12px 8px;box-shadow:inset 0 1px 0 rgba(255,235,190,.12);transition:border-color .3s,background .3s}
+.card.hero .details > div:hover{border-color:rgba(233,201,121,.7);background:rgba(30,0,6,.4)}
+.card.hero .countdown .orn:nth-child(1),.card.hero .countdown .orn:nth-child(4){--c1:#f0cd7a;--c2:#8a6524}
+.card.hero .countdown .orn:nth-child(2){--c1:#4aa176;--c2:#0f3b2a}
+.card.hero .countdown .orn:nth-child(3){--c1:#fff3d6;--c2:#b79a52}
+.card.hero .countdown .orn:nth-child(1) b,.card.hero .countdown .orn:nth-child(3) b,.card.hero .countdown .orn:nth-child(4) b{color:#4a0b12;text-shadow:0 1px 0 rgba(255,244,214,.45)}
+.card.hero .countdown .orn:nth-child(1) span,.card.hero .countdown .orn:nth-child(3) span,.card.hero .countdown .orn:nth-child(4) span{color:#5e2a1c;font-weight:500}
+.card.hero .note{background:rgba(25,0,5,.3);border:1px dashed rgba(233,201,121,.55);color:#f6e7c4}
+.card.hero .note strong{color:#f0cd7a}
+.card.hero .note .flake{stroke:#e9d9b4}
+.card.hero .note .kit span{background:rgba(255,255,255,.1);border:1px solid rgba(233,201,121,.3);color:#f6e7c4}
+.card.hero .btn{color:#fff0cf;border-color:rgba(233,201,121,.85);background:rgba(25,0,5,.25)}
+.card.hero .btn:hover{background:#e9d9b4;color:#4a0b12}
+.card.hero .actions > .btn:first-child{background:linear-gradient(135deg,#f6dc95,#c8963a);color:#45080f;border-color:#f1d58a;font-weight:600}
+.card.hero .actions > .btn:first-child:hover{filter:brightness(1.08);background:linear-gradient(135deg,#f6dc95,#c8963a)}
+.tap-hint{margin:20px 0 0;font:italic 500 1rem var(--display);color:#e9c979;letter-spacing:.02em}
+.go .tap-hint{animation:up 1s ease 4.7s both}
+.tap-hint.gone{display:none}
+
+/* Brillo que cruza la hoja (y reflejo que sigue al cursor en computadora) */
+.sheen{position:absolute;inset:0;border-radius:4px;overflow:hidden;pointer-events:none;z-index:2}
+.sheen::before{content:"";position:absolute;top:-20%;bottom:-20%;left:0;width:38%;background:linear-gradient(105deg,transparent,rgba(255,236,176,.16),transparent);transform:translateX(-160%) skewX(-12deg);animation:sweep 8s ease-in-out 6s infinite}
+@keyframes sweep{0%,55%{transform:translateX(-160%) skewX(-12deg)}100%{transform:translateX(330%) skewX(-12deg)}}
+.sheen::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,0%),rgba(255,232,170,.2),transparent 48%);opacity:0;transition:opacity .3s}
+.card.hero.tilt{transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out}
+.card.hero.tilt:hover .sheen::after{opacity:1}
+@media (hover:hover) and (pointer:fine){
+  .go .card.hero .family .fam{animation:namein 1.5s cubic-bezier(.2,.7,.2,1) 2.1s both,foil 7s linear 4.5s infinite}
+}
+@keyframes foil{to{background-position:200% 0}}
+
+/* Adornos colgantes que se mecen y suenan al tocarlos */
+.bauble{position:absolute;top:-4px;left:var(--x);width:34px;margin-left:-17px;padding:0;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;transform-origin:50% 0;z-index:5;-webkit-tap-highlight-color:transparent}
+.bauble i{display:block;font-style:normal}
+.bauble .str{width:1px;height:var(--len);background:linear-gradient(#e9c979,#b4893b)}
+.bauble .cap{width:10px;height:6px;border-radius:2px 2px 0 0;background:linear-gradient(90deg,#9a7330,#f3dc9a,#9a7330)}
+.bauble .ball{width:var(--d);height:var(--d);border-radius:50%;position:relative;overflow:hidden;
+  background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.85) 0 7%,transparent 22%),radial-gradient(circle at 50% 50%,var(--c1),var(--c2));
+  box-shadow:inset -4px -5px 9px rgba(0,0,0,.3),0 5px 10px rgba(0,0,0,.3)}
+.bauble .ball::after{content:"";position:absolute;left:0;right:0;top:44%;height:14%;background:linear-gradient(90deg,transparent,rgba(255,226,150,.8),transparent)}
+.bauble:focus-visible{outline:2px solid #f6dc95;outline-offset:3px;border-radius:8px}
+.bauble.nudge::before{content:"";position:absolute;bottom:0;left:50%;width:var(--d);height:var(--d);margin-left:calc(var(--d) / -2);border-radius:50%;border:2px solid rgba(255,230,160,.85);animation:ping 2.2s ease-out infinite;pointer-events:none}
+@keyframes ping{from{transform:scale(1);opacity:.9}to{transform:scale(1.9);opacity:0}}
+.go .bauble{animation:bdrop 1.1s cubic-bezier(.3,1.3,.5,1) calc(1s + var(--i) * .15s) both,swing 5s ease-in-out calc(2.7s + var(--i) * .15s) infinite}
+@keyframes bdrop{from{transform:translateY(-80px);opacity:0}}
+@keyframes swing{0%,100%{transform:rotate(0)}25%{transform:rotate(3.5deg)}75%{transform:rotate(-3.5deg)}}
+
+/* Flores de nochebuena y acebo en las esquinas */
+.deco{position:absolute;width:84px;height:84px;z-index:5;cursor:pointer;filter:drop-shadow(0 6px 7px rgba(0,0,0,.4));-webkit-tap-highlight-color:transparent;overflow:visible}
+.deco.sm{width:84px;height:84px}
+.d-tl{left:-20px;top:-34px}
+.d-br{right:-20px;bottom:-34px}
+.d-tr{right:-16px;top:-28px}
+.d-bl{left:-16px;bottom:-28px}
+.go .deco{animation:pop .9s cubic-bezier(.3,1.5,.5,1) calc(.5s + var(--i,0) * .25s) both}
+@keyframes pop{from{transform:scale(0) rotate(-40deg);opacity:0}}
+
+/* Destellos dorados alrededor de la hoja */
+.twinkles{position:absolute;inset:0;pointer-events:none;z-index:4}
+.tw{position:absolute;left:var(--x);top:var(--y);width:var(--s);height:var(--s);margin:calc(var(--s) / -2) 0 0 calc(var(--s) / -2);opacity:.25;animation:tw 2.8s ease-in-out var(--d,0s) infinite}
+@keyframes tw{50%{opacity:1;transform:scale(1.25) rotate(30deg)}}
+.fx{position:fixed;inset:0;pointer-events:none;z-index:30}
+.sp{position:absolute;width:10px;height:10px;margin:-5px 0 0 -5px;background:#ffe9a8;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:spk .9s cubic-bezier(.2,.7,.3,1) forwards}
+.sp:nth-child(3n){background:#fff}
+@keyframes spk{from{transform:translate(0,0) scale(0) rotate(0);opacity:1}30%{opacity:1;transform:translate(calc(var(--dx) * .5),calc(var(--dy) * .5)) scale(var(--s)) rotate(calc(var(--r) * .5))}to{transform:translate(var(--dx),calc(var(--dy) + 24px)) scale(0) rotate(var(--r));opacity:0}}
+
+/* ===== Hoja de confirmación en rojo ===== */
+.card.rsvp{padding-top:96px;padding-bottom:156px}
+/* Montones de regalos, flores laterales y firma en la parte baja */
+.deco.pile{width:190px;height:150px}
+.deco.pile.d-bl{left:-16px;bottom:-30px}
+.deco.pile.d-br{right:-16px;bottom:-30px}
+.deco.xs{width:46px;height:46px}
+.d-l1{left:-18px;top:30%}
+.d-r1{right:-18px;top:54%}
+.card.rsvp .sign{position:absolute;left:50%;bottom:124px;transform:translateX(-50%);margin:0;white-space:nowrap;text-align:center;font:italic 500 1.05rem/1.25 var(--display);color:#e9c979;pointer-events:none}
+/* Moños dorados en la esquina de los campos, como si fueran paquetes */
+.card.rsvp label.f{position:relative}
+.card.rsvp label.f::after{content:"";position:absolute;right:-12px;width:46px;height:36px;pointer-events:none;z-index:2;filter:drop-shadow(0 3px 3px rgba(0,0,0,.35));
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='36' viewBox='0 0 46 36'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23fbe7a8'/%3E%3Cstop offset='.5' stop-color='%23d9ac55'/%3E%3Cstop offset='1' stop-color='%23a97a2c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M23 17C15 2 2 4 3 14C4 23 17 21 23 17Z' fill='url(%23g)' stroke='%237a5516' stroke-width='.8'/%3E%3Cpath d='M23 17C31 2 44 4 43 14C42 23 29 21 23 17Z' fill='url(%23g)' stroke='%237a5516' stroke-width='.8'/%3E%3Cpath d='M21 19L12 35L19 31L23 22Z' fill='url(%23g)' stroke='%237a5516' stroke-width='.8'/%3E%3Cpath d='M25 19L34 35L27 31L23 22Z' fill='url(%23g)' stroke='%237a5516' stroke-width='.8'/%3E%3Ccircle cx='23' cy='17' r='4.2' fill='url(%23g)' stroke='%237a5516' stroke-width='.8'/%3E%3C/svg%3E") center/contain no-repeat}
+.card.rsvp label[for="nombre"]::after{bottom:30px}
+.card.rsvp label[for="mensaje"]::after{bottom:54px}
+.card.rsvp legend::before{content:"✦ ";font-size:.75em;vertical-align:.12em;letter-spacing:0}
+.card.rsvp .choice input[value="si"] + span::before{content:"🎄 "}
+.card.rsvp .choice input[value="no"] + span::before{content:"💌 "}
+.mini{display:flex;align-items:center;justify-content:center;gap:10px;margin:-4px 0}
+.mini span{flex:1;max-width:96px;height:1px;background:linear-gradient(90deg,transparent,rgba(233,201,121,.9))}
+.mini span:last-child{background:linear-gradient(270deg,transparent,rgba(233,201,121,.9))}
+.mini svg{width:30px;height:30px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))}
+.card.rsvp h2{font-size:2.15rem;background:var(--gold-foil);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 2px 5px rgba(30,0,6,.55))}
+.card.rsvp .lead{color:#f3e3c3;font-family:var(--display);font-style:italic;font-size:1.18rem;margin-bottom:0}
+.card.rsvp .rule{margin:16px 0 26px;color:#e9c979}
+.card.rsvp .rule::before{background:linear-gradient(90deg,transparent,#e9c979)}
+.card.rsvp .rule::after{background:linear-gradient(270deg,transparent,#e9c979)}
+.card.rsvp label.f,.card.rsvp legend{color:#e9c979}
+.card.rsvp input[type=text],.card.rsvp textarea{background:#fffaf0;border:1px solid rgba(233,201,121,.75);box-shadow:inset 0 2px 4px rgba(60,10,16,.12)}
+.card.rsvp input[type=text]:focus,.card.rsvp textarea:focus{border-color:#f6dc95;box-shadow:0 0 0 3px rgba(246,220,149,.35)}
+.card.rsvp .choice span{background:rgba(25,0,5,.32);border-color:rgba(233,201,121,.5);color:#f6e7c4}
+.card.rsvp .choice input:checked + span{background:linear-gradient(135deg,#f6dc95,#c8963a);border-color:#f1d58a;color:#45080f;font-weight:500}
+.card.rsvp .stepper{background:rgba(25,0,5,.32);border-color:rgba(233,201,121,.5)}
+.card.rsvp .stepper button,.card.rsvp .stepper output{color:#fff0cf}
+.card.rsvp .hint{color:rgba(246,231,196,.78)}
+.card.rsvp .error{color:#ffd0cc;font-weight:500}
+.card.rsvp .submit{position:relative;overflow:hidden;background:linear-gradient(135deg,#f6dc95,#c8963a);color:#45080f;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.card.rsvp .submit:hover{background:linear-gradient(135deg,#fbe7a8,#d4a14a);box-shadow:0 12px 28px rgba(246,220,149,.35)}
+.card.rsvp .submit::after{content:"";position:absolute;top:0;bottom:0;left:0;width:40%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:translateX(-160%) skewX(-18deg);animation:btnsweep 3.6s ease-in-out 1s infinite;pointer-events:none}
+@keyframes btnsweep{0%,45%{transform:translateX(-160%) skewX(-18deg)}100%{transform:translateX(380%) skewX(-18deg)}}
+.card.rsvp .done h3{background:var(--gold-foil);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 2px 5px rgba(30,0,6,.55))}
+.card.rsvp .done p{color:#f3e3c3}
+.card.rsvp .done pre{background:rgba(25,0,5,.35);border:1px solid rgba(233,201,121,.35);color:#f6e7c4}
+.card.rsvp .btn{color:#fff0cf;border-color:rgba(233,201,121,.85);background:rgba(25,0,5,.25)}
+.card.rsvp .btn:hover{background:#e9d9b4;color:#4a0b12}
+/* Los adornos de esta hoja entran cuando aparece al bajar, no al abrir el sobre */
+.card.rsvp:not(.in) .deco,.card.rsvp:not(.in) .bauble,.card.rsvp:not(.in) .fl{animation:none}
+.card.rsvp.in .deco{animation:pop .9s cubic-bezier(.3,1.5,.5,1) calc(.3s + var(--i,0) * .2s) both}
+.card.rsvp.in .bauble{animation:bdrop 1.1s cubic-bezier(.3,1.3,.5,1) calc(.4s + var(--i) * .15s) both,swing 5s ease-in-out calc(1.7s + var(--i) * .15s) infinite}
+.card.rsvp.in .fl{animation:flin 1.4s ease .5s both}
+
+.divider{display:flex;align-items:center;justify-content:center;gap:14px;margin:-12px 0}
+.divider span{flex:1;max-width:120px;height:1px;background:linear-gradient(90deg,transparent,#e9c979)}
+.divider span:last-child{background:linear-gradient(270deg,transparent,#e9c979)}
+.divider svg{width:40px;height:40px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4))}
+
+@media (max-width:440px){
+  .card{padding:58px 28px 46px}
+  .deco{width:70px;height:70px}
+  .deco.sm{width:72px;height:72px}
+  .deco.pile{width:172px;height:135px}
+  .deco.xs{width:42px;height:42px}
+  .card.rsvp .sign{font-size:.98rem;bottom:116px}
+  .d-tl{left:-16px;top:-28px}.d-br{right:-16px;bottom:-28px}
+  .countdown .orn .ball{width:60px;height:60px}
+  .countdown .orn b{font-size:1.5rem}
+}
+
 /* En el celular el sobre no usa filtros de papel ni sombra recalculada: así la solapa gira en una capa y no se traba. */
 @media (pointer:coarse),(max-width:820px){
   .envelope{filter:none}
   .envelope::after{content:"";position:absolute;z-index:-1;left:10%;right:10%;bottom:-8%;height:22%;background:rgba(0,0,0,.4);border-radius:50%;filter:blur(12px);pointer-events:none}
   .envelope svg .tex{display:none}
   .envelope svg [filter]{filter:none}
+  .letter .l-deco{filter:none}
+}
+@media (max-width:440px){
+  .cv-orn.poin{width:82px;height:82px;top:-4px;left:-12px}
+  .cv-orn.poin.r{left:auto;right:-12px}
+  .cv-orn.pile{width:124px;height:97px;bottom:-8px}
+  .cv-orn.pile.l{left:-10px}.cv-orn.pile.r{right:-10px}
+}
+@media (max-height:700px){
+  .cv-orn.pile{width:104px;height:82px}
+  .cv-orn.poin{width:68px;height:68px}
 }
 /* Mientras la portada está abierta, las luces y adornos de la invitación no se animan. */
-.await .tinsel .lt,.await .note .flake,.await .countdown .orn .ball{animation-play-state:paused}
+.await .tinsel .lt,.await .note .flake,.await .countdown .orn .ball,.await .tw,.await .bauble,.await .sheen::before{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){
-  .envelope,.cover .open-btn,.tinsel .lt,.countdown .orn .ball,.note .flake{animation:none!important}
+  .envelope,.cover .open-btn,.tinsel .lt,.countdown .orn .ball,.note .flake,.bauble,.tw,.sheen::before,.bauble.nudge::before,.card.rsvp .submit::after,.cvb,.cv-orn,.cv-decor .fl{animation:none!important}
   .cover{transition:none}
   .go *{animation:none!important}
 }
@@ -369,13 +612,121 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
       <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 .8  0 0 0 0 .8  1.2 0 0 0 -.5"/>
       <feComposite in2="SourceGraphic" operator="in"/>
     </filter>
+
+    <!-- Adornos navideños reutilizables: flor de nochebuena, acebo, destello y esquina dorada -->
+    <linearGradient id="petal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffaf0"/><stop offset=".55" stop-color="#f6e6bd"/><stop offset="1" stop-color="#d7b46a"/></linearGradient>
+    <linearGradient id="petal2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffdf6"/><stop offset="1" stop-color="#ecd49a"/></linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4aa176"/><stop offset="1" stop-color="#14503a"/></linearGradient>
+    <radialGradient id="berry" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#ff7a80"/><stop offset=".5" stop-color="#c1272f"/><stop offset="1" stop-color="#6e0d16"/></radialGradient>
+    <path id="lf" d="M50 52C30 42 27 18 50 0C73 18 70 42 50 52Z" fill="url(#leaf)"/>
+    <g id="pt"><path d="M50 52C33 40 33 14 50 4C67 14 67 40 50 52Z" fill="url(#petal)" stroke="#c49a4a" stroke-width=".6"/><path d="M50 48V14" stroke="#b88a3a" stroke-opacity=".45" stroke-width=".8" fill="none"/></g>
+    <g id="pt2"><path d="M50 52C39 44 39 28 50 19C61 28 61 44 50 52Z" fill="url(#petal2)" stroke="#c49a4a" stroke-width=".5"/></g>
+    <path id="hl" d="M0 0 Q5.8 -3.3 11.5 -6.4 Q17.2 -5.7 23.0 -9.0 Q28.8 -5.7 34.5 -6.4 Q40.2 -3.3 46.0 0.0 Q40.2 3.3 34.5 6.4 Q28.8 5.7 23.0 9.0 Q17.2 5.7 11.5 6.4 Q5.8 3.3 0.0 0.0Z" fill="url(#leaf)"/>
+    <g id="hlf"><use href="#hl"/><path d="M2 0H44" stroke="#a9dcc0" stroke-width=".9" opacity=".7"/></g>
+
+    <symbol id="poin" viewBox="0 0 100 100">
+      <use href="#lf" transform="rotate(22.5 50 50)"/><use href="#lf" transform="rotate(67.5 50 50)"/><use href="#lf" transform="rotate(112.5 50 50)"/><use href="#lf" transform="rotate(157.5 50 50)"/>
+      <use href="#lf" transform="rotate(202.5 50 50)"/><use href="#lf" transform="rotate(247.5 50 50)"/><use href="#lf" transform="rotate(292.5 50 50)"/><use href="#lf" transform="rotate(337.5 50 50)"/>
+      <use href="#pt"/><use href="#pt" transform="rotate(45 50 50)"/><use href="#pt" transform="rotate(90 50 50)"/><use href="#pt" transform="rotate(135 50 50)"/>
+      <use href="#pt" transform="rotate(180 50 50)"/><use href="#pt" transform="rotate(225 50 50)"/><use href="#pt" transform="rotate(270 50 50)"/><use href="#pt" transform="rotate(315 50 50)"/>
+      <use href="#pt2" transform="rotate(22.5 50 50)"/><use href="#pt2" transform="rotate(67.5 50 50)"/><use href="#pt2" transform="rotate(112.5 50 50)"/><use href="#pt2" transform="rotate(157.5 50 50)"/>
+      <use href="#pt2" transform="rotate(202.5 50 50)"/><use href="#pt2" transform="rotate(247.5 50 50)"/><use href="#pt2" transform="rotate(292.5 50 50)"/><use href="#pt2" transform="rotate(337.5 50 50)"/>
+      <circle cx="50" cy="50" r="7.5" fill="url(#gold)" stroke="#8a5f1e" stroke-width=".5"/>
+      <g fill="#7a4f12"><circle cx="46.5" cy="48" r=".95"/><circle cx="53.5" cy="48" r=".95"/><circle cx="45.5" cy="52.5" r=".95"/><circle cx="54.5" cy="52.5" r=".95"/><circle cx="50" cy="55" r=".95"/><circle cx="50" cy="47" r=".95"/></g>
+    </symbol>
+
+    <symbol id="holly" viewBox="0 0 100 100">
+      <g transform="translate(50 56)"><use href="#hlf" transform="rotate(-158)"/><use href="#hlf" transform="rotate(-22)"/><use href="#hlf" transform="rotate(98) scale(.8)"/></g>
+      <circle cx="45" cy="59" r="6.5" fill="url(#berry)"/><circle cx="56" cy="57" r="6.5" fill="url(#berry)"/><circle cx="50.5" cy="48.5" r="6.5" fill="url(#berry)"/>
+      <g fill="#fff" opacity=".75"><circle cx="43" cy="56.8" r="1.7"/><circle cx="54" cy="54.8" r="1.7"/><circle cx="48.5" cy="46.3" r="1.7"/></g>
+    </symbol>
+
+    <linearGradient id="giftg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3f9a6c"/><stop offset="1" stop-color="#0f3b2a"/></linearGradient>
+    <linearGradient id="giftc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3d6"/><stop offset="1" stop-color="#c9ad66"/></linearGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e5434b"/><stop offset="1" stop-color="#8e1520"/></linearGradient>
+    <symbol id="gift" viewBox="0 0 100 100">
+      <rect x="16" y="48" width="68" height="42" rx="3" fill="url(#giftg)"/>
+      <rect x="10" y="35" width="80" height="16" rx="3" fill="url(#giftg)" stroke="#a9dcc0" stroke-opacity=".35" stroke-width=".8"/>
+      <rect x="44" y="35" width="12" height="55" fill="url(#gold)"/>
+      <path d="M50 35C36 12 14 20 24 32C30 38 44 36 50 35Z" fill="url(#gold)" stroke="#8a5f1e" stroke-width=".8"/>
+      <path d="M50 35C64 12 86 20 76 32C70 38 56 36 50 35Z" fill="url(#gold)" stroke="#8a5f1e" stroke-width=".8"/>
+      <circle cx="50" cy="35" r="5.5" fill="url(#gold)" stroke="#8a5f1e" stroke-width=".8"/>
+      <rect x="20" y="52" width="4" height="30" rx="2" fill="#fff" opacity=".18"/>
+    </symbol>
+    <symbol id="gift2" viewBox="0 0 100 100">
+      <rect x="16" y="48" width="68" height="42" rx="3" fill="url(#giftc)"/>
+      <rect x="10" y="35" width="80" height="16" rx="3" fill="url(#giftc)" stroke="#b79a52" stroke-opacity=".6" stroke-width=".8"/>
+      <rect x="44" y="35" width="12" height="55" fill="url(#ribbon)"/>
+      <path d="M50 35C36 12 14 20 24 32C30 38 44 36 50 35Z" fill="url(#ribbon)" stroke="#6e0d16" stroke-width=".8"/>
+      <path d="M50 35C64 12 86 20 76 32C70 38 56 36 50 35Z" fill="url(#ribbon)" stroke="#6e0d16" stroke-width=".8"/>
+      <circle cx="50" cy="35" r="5.5" fill="url(#ribbon)" stroke="#6e0d16" stroke-width=".8"/>
+      <rect x="20" y="52" width="4" height="30" rx="2" fill="#fff" opacity=".4"/>
+    </symbol>
+
+    <linearGradient id="giftd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe7a8"/><stop offset="1" stop-color="#b8862f"/></linearGradient>
+    <linearGradient id="ribbong" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4aa176"/><stop offset="1" stop-color="#0f3b2a"/></linearGradient>
+    <radialGradient id="ballg" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#fff3c4"/><stop offset=".5" stop-color="#d9ac55"/><stop offset="1" stop-color="#8a5f1e"/></radialGradient>
+    <symbol id="gift3" viewBox="0 0 100 100">
+      <rect x="16" y="48" width="68" height="42" rx="3" fill="url(#giftd)"/>
+      <rect x="10" y="35" width="80" height="16" rx="3" fill="url(#giftd)" stroke="#8a5f1e" stroke-opacity=".5" stroke-width=".8"/>
+      <rect x="44" y="35" width="12" height="55" fill="url(#ribbong)"/>
+      <path d="M50 35C36 12 14 20 24 32C30 38 44 36 50 35Z" fill="url(#ribbong)" stroke="#0a2a1d" stroke-width=".8"/>
+      <path d="M50 35C64 12 86 20 76 32C70 38 56 36 50 35Z" fill="url(#ribbong)" stroke="#0a2a1d" stroke-width=".8"/>
+      <circle cx="50" cy="35" r="5.5" fill="url(#ribbong)" stroke="#0a2a1d" stroke-width=".8"/>
+      <rect x="20" y="52" width="4" height="30" rx="2" fill="#fff" opacity=".35"/>
+    </symbol>
+    <!-- Montón de regalos para las esquinas -->
+    <symbol id="pile" viewBox="0 0 140 110">
+      <use href="#gift" x="4" y="34" width="80" height="80"/>
+      <use href="#gift3" x="21" y="20" width="46" height="46"/>
+      <use href="#gift2" x="62" y="50" width="64" height="64"/>
+      <use href="#holly" x="94" y="68" width="44" height="44"/>
+      <rect x="13" y="83" width="6" height="4" rx="1" fill="#c89a3e"/>
+      <circle cx="16" cy="97" r="11" fill="url(#ballg)"/>
+      <circle cx="12.5" cy="93" r="2.6" fill="#fff" opacity=".7"/>
+    </symbol>
+
+    <symbol id="spark" viewBox="0 0 24 24"><path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4Z" fill="#ffe9a8"/></symbol>
+
+    <symbol id="corner" viewBox="0 0 40 40">
+      <g fill="none" stroke="#e2bf6a" stroke-width="1.3" stroke-linecap="round"><path d="M4 4V24M4 4H24"/><path d="M10 10C10 19 19 19 19 13C19 10 15 10 15 13"/></g>
+      <path d="M4 .5L7.5 4L4 7.5L.5 4Z" fill="#f1d58a"/><circle cx="24" cy="4" r="1.5" fill="#f1d58a"/><circle cx="4" cy="24" r="1.5" fill="#f1d58a"/>
+    </symbol>
   </defs>
 </svg>
 
 <div class="cover" id="cover">
+  <div class="cv-decor" aria-hidden="true">
+    <svg class="fl tl"><use href="#corner"/></svg><svg class="fl tr"><use href="#corner"/></svg>
+    <svg class="fl bl"><use href="#corner"/></svg><svg class="fl br"><use href="#corner"/></svg>
+    <span class="cvb" style="--x:27%;--len:26px;--d:26px;--c1:#f6dc95;--c2:#8a6524;--i:0"><i class="str"></i><i class="cap"></i><i class="ball"></i></span>
+    <span class="cvb" style="--x:40%;--len:12px;--d:22px;--c1:#4aa176;--c2:#0f3b2a;--i:1"><i class="str"></i><i class="cap"></i><i class="ball"></i></span>
+    <span class="cvb" style="--x:60%;--len:12px;--d:22px;--c1:#fff3d6;--c2:#b79a52;--i:2"><i class="str"></i><i class="cap"></i><i class="ball"></i></span>
+    <span class="cvb" style="--x:73%;--len:26px;--d:26px;--c1:#f6dc95;--c2:#8a6524;--i:3"><i class="str"></i><i class="cap"></i><i class="ball"></i></span>
+    <svg class="cv-orn poin" viewBox="0 0 100 100" style="--i:0"><use href="#poin"/></svg>
+    <svg class="cv-orn poin r" viewBox="0 0 100 100" style="--i:1"><use href="#poin" transform="rotate(24 50 50)"/></svg>
+    <svg class="cv-orn pile l" viewBox="0 0 140 110" style="--i:2"><use href="#pile"/></svg>
+    <svg class="cv-orn pile r" viewBox="0 0 140 110" style="--i:3"><use href="#pile" transform="translate(140 0) scale(-1 1)"/></svg>
+    <div class="twinkles">
+      <svg class="tw" style="--x:12%;--y:30%;--s:14px;--d:0s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:90%;--y:26%;--s:12px;--d:.6s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:7%;--y:52%;--s:10px;--d:1.1s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:94%;--y:58%;--s:14px;--d:1.7s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:50%;--y:9%;--s:12px;--d:.4s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:20%;--y:76%;--s:10px;--d:1.3s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:82%;--y:78%;--s:12px;--d:.9s"><use href="#spark"/></svg>
+    </div>
+  </div>
   <div class="envelope" id="envelope" aria-hidden="true">
     <div class="inside"></div>
-    <div class="letter"><span class="l-top">Familia Estrada Guerrero</span><span class="l-script">Feliz Navidad</span><span class="l-year">2026</span></div>
+    <div class="letter">
+      <svg class="l-deco tl" viewBox="0 0 100 100"><use href="#holly"/></svg>
+      <svg class="l-deco tr" viewBox="0 0 100 100"><use href="#holly" transform="translate(100 0) scale(-1 1)"/></svg>
+      <svg class="fl tl"><use href="#corner"/></svg><svg class="fl tr" style="transform:scaleX(-1)"><use href="#corner"/></svg>
+      <span class="l-top">Familia Estrada Guerrero</span><span class="l-script">Feliz Navidad</span>
+      <span class="l-rule"><svg viewBox="0 0 24 24"><use href="#spark"/></svg></span>
+      <span class="l-year">2026</span>
+    </div>
     <svg class="pocket" viewBox="0 0 300 200" preserveAspectRatio="none">
       <path d="M0 6Q0 0 5 3L148 110L5 197Q0 200 0 194Z" fill="url(#pk-side)"/>
       <path class="tex" d="M0 6Q0 0 5 3L148 110L5 197Q0 200 0 194Z" filter="url(#paper)"/>
@@ -436,29 +787,56 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
   <svg class="on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
   <svg class="off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="m22 9-6 6M16 9l6 6"/></svg>
 </button>
+<div class="fx" id="fx" aria-hidden="true"></div>
 <canvas id="snow" aria-hidden="true"></canvas>
 
 <main class="wrap">
   <article class="card hero">
+    <span class="sheen" aria-hidden="true"></span>
+    <svg class="fl tl" aria-hidden="true"><use href="#corner"/></svg><svg class="fl tr" aria-hidden="true"><use href="#corner"/></svg>
+    <svg class="fl bl" aria-hidden="true"><use href="#corner"/></svg><svg class="fl br" aria-hidden="true"><use href="#corner"/></svg>
+
+    <button class="bauble nudge" type="button" style="--x:17%;--len:52px;--d:30px;--c1:#f6dc95;--c2:#8a6524;--i:0" aria-label="Adorno dorado, tócalo para hacerlo sonar"><i class="str"></i><i class="cap"></i><i class="ball"></i></button>
+    <button class="bauble" type="button" style="--x:31%;--len:28px;--d:26px;--c1:#4aa176;--c2:#0f3b2a;--i:1" aria-label="Adorno verde, tócalo para hacerlo sonar"><i class="str"></i><i class="cap"></i><i class="ball"></i></button>
+    <button class="bauble" type="button" style="--x:69%;--len:28px;--d:26px;--c1:#fff3d6;--c2:#b79a52;--i:2" aria-label="Adorno champán, tócalo para hacerlo sonar"><i class="str"></i><i class="cap"></i><i class="ball"></i></button>
+    <button class="bauble" type="button" style="--x:83%;--len:52px;--d:30px;--c1:#f6dc95;--c2:#8a6524;--i:3" aria-label="Adorno dorado, tócalo para hacerlo sonar"><i class="str"></i><i class="cap"></i><i class="ball"></i></button>
+
+    <svg class="deco d-tl" viewBox="0 0 100 100" style="--i:0" aria-hidden="true"><use href="#poin"/></svg>
+    <svg class="deco sm d-tr" viewBox="0 0 100 100" style="--i:1" aria-hidden="true"><use href="#holly" transform="translate(100 0) scale(-1 1)"/></svg>
+    <svg class="deco sm d-bl" viewBox="0 0 100 100" style="--i:2" aria-hidden="true"><use href="#holly" transform="translate(0 100) scale(1 -1)"/></svg>
+    <svg class="deco d-br" viewBox="0 0 100 100" style="--i:3" aria-hidden="true"><use href="#poin" transform="rotate(22.5 50 50)"/></svg>
+
+    <div class="twinkles" aria-hidden="true">
+      <svg class="tw" style="--x:-1%;--y:33%;--s:14px;--d:0s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:101%;--y:45%;--s:12px;--d:.6s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:0%;--y:66%;--s:10px;--d:1.1s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:100%;--y:78%;--s:14px;--d:1.7s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:24%;--y:-1%;--s:12px;--d:.4s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:76%;--y:-1%;--s:10px;--d:1.3s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:50%;--y:-2%;--s:16px;--d:.2s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:36%;--y:101%;--s:12px;--d:.9s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:66%;--y:100.5%;--s:10px;--d:2s"><use href="#spark"/></svg>
+    </div>
+
     <svg class="sprig seq" viewBox="0 0 120 60" aria-hidden="true">
-      <g fill="none" stroke="#2f5a46" stroke-width="2" stroke-linecap="round">
+      <g fill="none" stroke="#6fbf8f" stroke-width="2" stroke-linecap="round">
         <path d="M60 46 C46 30 28 22 8 22"/>
         <path d="M60 46 C74 30 92 22 112 22"/>
       </g>
-      <g fill="#2f5a46">
+      <g fill="#4aa070">
         <g transform="rotate(-18 22 20)"><ellipse style="--i:0" cx="22" cy="20" rx="9" ry="4"/></g>
         <g transform="rotate(28 38 30)"><ellipse style="--i:1" cx="38" cy="30" rx="9" ry="4"/></g>
         <g transform="rotate(18 98 20)"><ellipse style="--i:2" cx="98" cy="20" rx="9" ry="4"/></g>
         <g transform="rotate(-28 82 30)"><ellipse style="--i:3" cx="82" cy="30" rx="9" ry="4"/></g>
       </g>
-      <g fill="#9e2b2b">
+      <g fill="#f3d98a">
         <circle style="--i:0" cx="56" cy="48" r="5"/><circle style="--i:1" cx="65" cy="47" r="5"/><circle style="--i:2" cx="60" cy="40" r="5"/>
       </g>
     </svg>
 
     <p class="blessing seq">“Que la paz, el amor y la alegría de estas fechas inunden sus hogares. Deseamos que esta Navidad esté llena de momentos inolvidables en familia.”</p>
 
-    <h1 class="family"><span class="seq">La Familia</span><span class="fam seq" style="display:inline-block;font-size:1em;font-style:normal;font-weight:600;color:var(--ink);margin:0">Estrada Guerrero</span></h1>
+    <h1 class="family"><span class="seq">La Familia</span><span class="fam seq" style="display:inline-block;font-size:1em;font-style:normal;font-weight:600;margin:0">Estrada Guerrero</span></h1>
     <p class="invite seq">Te invita cordialmente a pasar la Navidad</p>
 
     <div class="rule seq" aria-hidden="true"><span class="star">✦</span></div>
@@ -490,16 +868,51 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
       </a>
       <div data-cal></div>
     </div>
+    <p class="tap-hint seq" id="tap-hint">✦ Toca los adornos y haz sonar la Navidad ✦</p>
   </article>
 
+  <div class="divider" aria-hidden="true" data-reveal><span></span><svg viewBox="0 0 100 100"><use href="#poin"/></svg><span></span></div>
+
   <section class="card rsvp" id="rsvp" data-reveal>
+    <span class="sheen" aria-hidden="true"></span>
+    <svg class="fl tl" aria-hidden="true"><use href="#corner"/></svg><svg class="fl tr" aria-hidden="true"><use href="#corner"/></svg>
+    <svg class="fl bl" aria-hidden="true"><use href="#corner"/></svg><svg class="fl br" aria-hidden="true"><use href="#corner"/></svg>
+
+    <button class="bauble" type="button" style="--x:17%;--len:46px;--d:30px;--c1:#fff3d6;--c2:#b79a52;--i:0" aria-label="Adorno champán, tócalo para hacerlo sonar"><i class="str"></i><i class="cap"></i><i class="ball"></i></button>
+    <button class="bauble" type="button" style="--x:31%;--len:26px;--d:26px;--c1:#f6dc95;--c2:#8a6524;--i:1" aria-label="Adorno dorado, tócalo para hacerlo sonar"><i class="str"></i><i class="cap"></i><i class="ball"></i></button>
+    <button class="bauble" type="button" style="--x:69%;--len:26px;--d:26px;--c1:#4aa176;--c2:#0f3b2a;--i:2" aria-label="Adorno verde, tócalo para hacerlo sonar"><i class="str"></i><i class="cap"></i><i class="ball"></i></button>
+    <button class="bauble" type="button" style="--x:83%;--len:46px;--d:30px;--c1:#fff3d6;--c2:#b79a52;--i:3" aria-label="Adorno champán, tócalo para hacerlo sonar"><i class="str"></i><i class="cap"></i><i class="ball"></i></button>
+
+    <svg class="deco sm d-tl" viewBox="0 0 100 100" style="--i:0" aria-hidden="true"><use href="#holly"/></svg>
+    <svg class="deco d-tr" viewBox="0 0 100 100" style="--i:1" aria-hidden="true"><use href="#poin" transform="rotate(10 50 50)"/></svg>
+    <svg class="deco pile d-bl" viewBox="0 0 140 110" style="--i:2" aria-hidden="true"><use href="#pile"/></svg>
+    <svg class="deco pile d-br" viewBox="0 0 140 110" style="--i:3" aria-hidden="true"><use href="#pile" transform="translate(140 0) scale(-1 1)"/></svg>
+    <svg class="deco xs d-l1" viewBox="0 0 100 100" style="--i:4" aria-hidden="true"><use href="#poin" transform="rotate(14 50 50)"/></svg>
+    <svg class="deco xs d-r1" viewBox="0 0 100 100" style="--i:5" aria-hidden="true"><use href="#poin" transform="rotate(32 50 50)"/></svg>
+    <p class="sign">✦ Los esperamos con mucho cariño ✦</p>
+
+    <div class="twinkles" aria-hidden="true">
+      <svg class="tw" style="--x:-1%;--y:22%;--s:14px;--d:.3s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:101%;--y:38%;--s:12px;--d:.9s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:0%;--y:56%;--s:10px;--d:1.4s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:100%;--y:70%;--s:14px;--d:2s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:28%;--y:-1%;--s:12px;--d:.5s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:72%;--y:-1%;--s:10px;--d:1.6s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:50%;--y:-2%;--s:16px;--d:.1s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:34%;--y:101%;--s:12px;--d:1s"><use href="#spark"/></svg>
+      <svg class="tw" style="--x:64%;--y:100.5%;--s:10px;--d:2.2s"><use href="#spark"/></svg>
+    </div>
+
     <h2>Confirma tu asistencia</h2>
     <p class="lead">Nos ayuda mucho saber cuántos seremos.</p>
+    <div class="rule" aria-hidden="true"><span class="star">✦</span></div>
 
     <form id="form" novalidate>
       <label class="f" for="nombre">Nombre o familia
         <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej. Familia López" required>
       </label>
+
+      <div class="mini" aria-hidden="true"><span></span><svg viewBox="0 0 100 100"><use href="#holly"/></svg><span></span></div>
 
       <fieldset>
         <legend>¿Nos acompañas?</legend>
@@ -529,6 +942,8 @@ legend{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(-
           </div>
         </fieldset>
       </div>
+
+      <div class="mini" aria-hidden="true"><span></span><svg viewBox="0 0 100 100"><use href="#poin"/></svg><span></span></div>
 
       <label class="f" for="mensaje">Mensaje para la familia <span class="hint">(opcional)</span>
         <textarea id="mensaje" name="mensaje" placeholder="Un saludo, una duda…"></textarea>
@@ -760,7 +1175,14 @@ const Music = (() => {
       onState && onState();
     },
     pause(){ if (ctx && ctx.state === "running") ctx.suspend(); },
-    resume(){ if (ctx && wanted) ctx.resume(); }
+    resume(){ if (ctx && wanted) ctx.resume(); },
+    /* Campanita al tocar un adorno (escala pentatónica, suena igual que el resto de la música) */
+    chime(i){
+      if (!ctx || ctx.state !== "running" || !wanted) return;
+      const f = N([79, 83, 86, 88, 91][i % 5]), t = ctx.currentTime + .01;
+      note(t, { f, d: 2.5, v: .2, k: "mel" });
+      note(t + .06, { f: f * 2, d: 1.5, v: .07, k: "mel" });
+    }
   };
 })();
 
@@ -851,6 +1273,64 @@ function snowBurst(el){
     if (alive && k < (phone ? 1.6 : 4)) requestAnimationFrame(f); else { snowPause = false; c.remove(); }
   })(t0);
 }
+
+/* Adornos interactivos: se mecen, suenan y sueltan destellos al tocarlos */
+(() => {
+  const hero = document.querySelector(".card.hero"), fx = document.getElementById("fx"), hint = document.getElementById("tap-hint");
+  let bell = 0;
+  function sparkle(x, y, n){
+    if (reduceMotion) return;
+    for (let i = 0; i < n; i++){
+      const s = document.createElement("i"), a = Math.random() * Math.PI * 2, d = 26 + Math.random() * (phone ? 34 : 54);
+      s.className = "sp";
+      s.style.cssText = "left:" + x + "px;top:" + y + "px;--dx:" + (Math.cos(a) * d).toFixed(1) + "px;--dy:" + (Math.sin(a) * d - 12).toFixed(1) + "px;--r:" + Math.round(Math.random() * 180) + "deg;--s:" + (.6 + Math.random() * .9).toFixed(2);
+      s.addEventListener("animationend", () => s.remove());
+      fx.appendChild(s);
+    }
+  }
+  function seen(){
+    if (hint) hint.classList.add("gone");
+    document.querySelectorAll(".bauble.nudge").forEach(b => b.classList.remove("nudge"));
+  }
+  function ring(el, x, y){
+    Music.chime(bell++); sparkle(x, y, phone ? 9 : 14); seen();
+  }
+  document.querySelectorAll(".bauble").forEach(b => b.addEventListener("click", () => {
+    const r = b.querySelector(".ball").getBoundingClientRect();
+    if (!reduceMotion) b.animate([
+      { transform: "rotate(0)" }, { transform: "rotate(26deg)", offset: .15 }, { transform: "rotate(-20deg)", offset: .35 },
+      { transform: "rotate(13deg)", offset: .55 }, { transform: "rotate(-7deg)", offset: .75 }, { transform: "rotate(3deg)", offset: .9 }, { transform: "rotate(0)" }
+    ], { duration: 1700, easing: "ease-out" });
+    ring(b, r.left + r.width / 2, r.top + r.height / 2);
+  }));
+  document.querySelectorAll(".deco").forEach(d => d.addEventListener("click", () => {
+    const r = d.getBoundingClientRect();
+    if (!reduceMotion) d.animate([
+      { transform: "scale(1) rotate(0)" }, { transform: "scale(1.18) rotate(-14deg)" }, { transform: "scale(.96) rotate(9deg)" }, { transform: "scale(1) rotate(0)" }
+    ], { duration: 650, easing: "ease-out" });
+    ring(d, r.left + r.width / 2, r.top + r.height / 2);
+  }));
+  document.querySelectorAll(".card.hero,.card.rsvp").forEach(card => card.addEventListener("pointerdown", e => {
+    if (e.target.closest("a,button,input,textarea,label,.deco") || document.documentElement.classList.contains("await")) return;
+    sparkle(e.clientX, e.clientY, phone ? 5 : 8);
+  }));
+  /* Solo en computadora: la hoja se inclina un poco hacia el cursor y deja un reflejo dorado */
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches && !reduceMotion){
+    let raf;
+    hero.classList.add("tilt");
+    hero.addEventListener("pointermove", e => {
+      const r = hero.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        hero.style.setProperty("--ry", ((px - .5) * 7).toFixed(2) + "deg");
+        hero.style.setProperty("--rx", ((.5 - py) * 5).toFixed(2) + "deg");
+        hero.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
+        hero.style.setProperty("--my", (py * 100).toFixed(1) + "%");
+      });
+    });
+    hero.addEventListener("pointerleave", () => { cancelAnimationFrame(raf); hero.style.setProperty("--rx", "0deg"); hero.style.setProperty("--ry", "0deg"); });
+  }
+})();
 
 /* Serpentina navideña con luces alrededor de cada tarjeta */
 (() => {
