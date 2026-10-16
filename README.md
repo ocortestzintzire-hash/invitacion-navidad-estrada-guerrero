@@ -1,6 +1,6 @@
 # Invitación Navidad — Familia Estrada Guerrero
 
-Invitación web interactiva para el 24 y 25 de diciembre en Club Campestre Kercus.
+Invitación web interactiva para el 24 y 25 de diciembre en Club Campestre Quercus.
 
 ## Contenido
 - `index.html` — la invitación (música sintetizada, sin dependencias externas).
